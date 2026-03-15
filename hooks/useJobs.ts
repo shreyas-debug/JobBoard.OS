@@ -6,7 +6,7 @@ import jobsData from "@/data/jobs.json";
 import type { Job } from "@/types/job";
 import { useDebounce } from "./useDebounce";
 
-const allJobs = jobsData as Job[];
+const ALL_JOBS = jobsData as Job[];
 
 export function useJobs() {
   const router = useRouter();
@@ -34,7 +34,7 @@ export function useJobs() {
     router.replace(qs ? `?${qs}` : "/", { scroll: false });
   }, [debouncedQuery, activeType, activeDepartment, router]);
 
-  const filteredJobs = allJobs.filter((job) => {
+  const filteredJobs = ALL_JOBS.filter((job) => {
     const q = debouncedQuery.toLowerCase();
     const matchesSearch =
       !q ||
@@ -54,7 +54,8 @@ export function useJobs() {
   }, [router]);
 
   return {
-    jobs: filteredJobs,
+    filteredJobs,
+    allJobs: ALL_JOBS,
     searchQuery,
     setSearchQuery,
     activeType,
@@ -62,6 +63,6 @@ export function useJobs() {
     activeDepartment,
     setActiveDepartment,
     clearFilters,
-    totalCount: allJobs.length,
+    totalCount: ALL_JOBS.length,
   };
 }

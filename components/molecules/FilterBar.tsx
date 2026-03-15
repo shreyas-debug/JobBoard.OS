@@ -1,6 +1,6 @@
 "use client";
 
-import { Search, X } from "lucide-react";
+import { Search, X, CheckCheck } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -17,12 +17,15 @@ interface FilterBarProps {
   onTypeChange: (value: string) => void;
   activeDepartment: string;
   onDepartmentChange: (value: string) => void;
+  showAppliedOnly: boolean;
+  onToggleAppliedOnly: (val: boolean) => void;
+  appliedCount: number;
   totalCount: number;
   filteredCount: number;
 }
 
 const JOB_TYPES = [
-  { value: "all", label: "All Types" },
+  { value: "all", label: "All" },
   { value: "Full-time", label: "Full-time" },
   { value: "Contract", label: "Contract" },
 ] as const;
@@ -41,40 +44,47 @@ export function FilterBar({
   onTypeChange,
   activeDepartment,
   onDepartmentChange,
+  showAppliedOnly,
+  onToggleAppliedOnly,
+  appliedCount,
   totalCount,
   filteredCount,
 }: FilterBarProps) {
   const hasActiveFilters =
-    searchQuery || activeType !== "all" || activeDepartment !== "all";
+    !!searchQuery ||
+    activeType !== "all" ||
+    activeDepartment !== "all" ||
+    showAppliedOnly;
 
   const selectedDeptLabel =
-    DEPARTMENTS.find((d) => d.value === activeDepartment)?.label ?? "All Departments";
+    DEPARTMENTS.find((d) => d.value === activeDepartment)?.label ??
+    "All Departments";
 
   return (
-    <div className="sticky top-0 z-40 border-b border-gray-200 bg-white">
-      <div className="mx-auto max-w-4xl px-4 py-3 sm:px-6">
-        <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:gap-3">
+    <div className="sticky top-0 z-40 border-b border-white/5 bg-[#0A0A0A]/90 backdrop-blur-xl">
+      <div className="mx-auto max-w-4xl px-4 sm:px-6">
 
-          {/* Search */}
+        {/* ── Row 1: Search (stable width) + count ── */}
+        <div className="flex items-center gap-3 pt-3 pb-2">
           <div className="relative flex-1">
             <Search
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-white/30 pointer-events-none"
               size={13}
               aria-hidden="true"
             />
             <input
               type="search"
-              placeholder="Search by title or company…"
+              placeholder="Search roles or companies…"
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
               aria-label="Search jobs by title or company"
-              className="w-full h-9 rounded-lg border border-gray-200 bg-gray-50 pl-8 pr-8 text-[13px] text-gray-800 placeholder:text-gray-400 outline-none transition-colors focus:border-gray-400 focus:ring-0"
+              className="w-full h-9 rounded-lg border border-white/8 bg-white/5 pl-8 pr-8 text-[13px] text-white/90 placeholder:text-white/30 outline-none transition-colors focus:border-white/20 focus:bg-white/[0.07]"
             />
             {searchQuery && (
               <button
                 type="button"
                 onClick={() => onSearchChange("")}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-white/30 hover:text-white/60 transition-colors"
                 aria-label="Clear search"
               >
                 <X size={12} />
@@ -82,11 +92,37 @@ export function FilterBar({
             )}
           </div>
 
+          <div className="flex shrink-0 items-center gap-2">
+            <span className="text-[12px] font-medium text-white/25 tabular-nums">
+              {filteredCount === totalCount
+                ? `${totalCount} roles`
+                : `${filteredCount} of ${totalCount}`}
+            </span>
+            {hasActiveFilters && (
+              <button
+                type="button"
+                onClick={() => {
+                  onSearchChange("");
+                  onTypeChange("all");
+                  onDepartmentChange("all");
+                  onToggleAppliedOnly(false);
+                }}
+                className="text-[11px] font-semibold text-white/30 underline underline-offset-2 hover:text-white/60 transition-colors"
+              >
+                Clear
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* ── Row 2: Filter chips (scrollable on mobile) ── */}
+        <div className="flex items-center gap-2 overflow-x-auto pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+
           {/* Type pills */}
           <div
             role="group"
             aria-label="Filter by job type"
-            className="flex items-center gap-1 rounded-lg border border-gray-200 bg-gray-50 p-0.5"
+            className="flex shrink-0 items-center gap-0.5 rounded-lg border border-white/8 bg-white/5 p-0.5"
           >
             {JOB_TYPES.map(({ value, label }) => (
               <button
@@ -95,10 +131,10 @@ export function FilterBar({
                 onClick={() => onTypeChange(value)}
                 aria-pressed={activeType === value}
                 className={cn(
-                  "h-7.5 rounded-md px-3 text-[12px] font-semibold transition-colors duration-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-gray-900",
+                  "h-7 rounded-md px-3 text-[12px] font-medium whitespace-nowrap transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/30",
                   activeType === value
-                    ? "bg-gray-900 text-white"
-                    : "text-gray-500 hover:text-gray-800"
+                    ? "bg-white text-black font-semibold"
+                    : "text-white/50 hover:text-white/80"
                 )}
               >
                 {label}
@@ -113,16 +149,16 @@ export function FilterBar({
           >
             <SelectTrigger
               aria-label="Filter by department"
-              className="w-full sm:w-[160px] h-9 text-[13px] border-gray-200 bg-gray-50 text-gray-700 focus:ring-0 focus:border-gray-400 rounded-lg"
+              className="h-8 w-[148px] shrink-0 text-[12px] border-white/8 bg-white/5 text-white/60 focus:ring-0 focus:border-white/20 rounded-lg"
             >
               <SelectValue>{selectedDeptLabel}</SelectValue>
             </SelectTrigger>
-            <SelectContent className="bg-white border-gray-200 rounded-xl shadow-md">
+            <SelectContent className="bg-[#111111] border-white/10 rounded-xl shadow-2xl">
               {DEPARTMENTS.map(({ value, label }) => (
                 <SelectItem
                   key={value}
                   value={value}
-                  className="text-[13px] text-gray-700 focus:bg-gray-100 focus:text-gray-900 rounded-lg"
+                  className="text-[13px] text-white/70 focus:bg-white/10 focus:text-white rounded-lg"
                 >
                   {label}
                 </SelectItem>
@@ -130,27 +166,34 @@ export function FilterBar({
             </SelectContent>
           </Select>
 
-          {/* Count + clear */}
-          <div className="flex shrink-0 items-center gap-2 sm:ml-auto">
-            <span className="text-[12px] font-medium text-gray-400 tabular-nums">
-              {filteredCount === totalCount
-                ? `${totalCount} roles`
-                : `${filteredCount} of ${totalCount}`}
-            </span>
-            {hasActiveFilters && (
-              <button
-                type="button"
-                onClick={() => {
-                  onSearchChange("");
-                  onTypeChange("all");
-                  onDepartmentChange("all");
-                }}
-                className="text-[11px] font-semibold text-gray-500 underline underline-offset-2 hover:text-gray-800 transition-colors"
-              >
-                Clear
-              </button>
+          {/* Applied toggle chip */}
+          <button
+            type="button"
+            role="switch"
+            aria-checked={showAppliedOnly}
+            onClick={() => onToggleAppliedOnly(!showAppliedOnly)}
+            className={cn(
+              "flex h-8 shrink-0 items-center gap-1.5 rounded-lg border px-3 text-[12px] font-medium whitespace-nowrap transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/30",
+              showAppliedOnly
+                ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-400"
+                : "border-white/8 bg-white/5 text-white/50 hover:text-white/80"
             )}
-          </div>
+          >
+            <CheckCheck size={12} aria-hidden="true" />
+            Applied
+            {appliedCount > 0 && (
+              <span
+                className={cn(
+                  "ml-0.5 rounded px-1.5 py-0.5 text-[10px] font-bold tabular-nums leading-none",
+                  showAppliedOnly
+                    ? "bg-emerald-500/20 text-emerald-400"
+                    : "bg-white/10 text-white/50"
+                )}
+              >
+                {appliedCount}
+              </span>
+            )}
+          </button>
         </div>
       </div>
     </div>

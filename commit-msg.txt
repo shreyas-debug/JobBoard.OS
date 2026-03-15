@@ -1,26 +1,27 @@
-ux: flat technical aesthetic, Clearbit logos, and prominent Apply CTA
+feat: apply flow with localStorage persistence, toast, and applied filter
 
-Logos:
-- Added Clearbit Logo API URLs to all 12 companies in jobs.json
-- next.config.ts: added logo.clearbit.com to allowed image domains
-- JobCard renders real company logos via next/image with LetterAvatar fallback
-- LetterAvatar: removed gradient fills, replaced with flat tinted palette
-  (solid bg with matching text/border, no gradient-to-* classes)
+Apply Now button (JobDetailSheet):
+- Simulates 1-second network request with Loader2 spinner and "Submitting…" text
+- On success: fires Sonner toast ("Application submitted!" with job title/company)
+- Disabled "Applied" state (emerald chip + CheckCircle2) when job_id is in storage
+- Two CTAs: header button (always in view) and sticky footer button
 
-Flat aesthetic (zero gradients, zero blur):
-- Removed all bg-gradient-to-*, from-*, to-* across every component
-- Removed all backdrop-blur-*, blur-* effects
-- Hero: plain white bg, solid border-b, black heading with tracking-tight
-  Status badge: flat gray-50 with solid emerald dot, no animations
-- Cards: white bg inside a shared rounded-xl border container, divider lines
-  between rows (list-style like Linear Jobs / Greenhouse)
-  Hover: bg-gray-50 tint only — no shadow, no border shift
-- FilterBar: bg-white, solid border-b, no backdrop-blur
-  Active type pill: bg-gray-900 text-white (solid black)
-- Badges: flat tinted backgrounds with matching border (no opacity tricks)
+localStorage persistence (hooks/useAppliedJobs.ts):
+- New hook reads/writes a Set of applied job IDs to localStorage key "jobboard_applied_ids"
+- Survives page refresh; handles JSON parse errors and storage write failures gracefully
+- Exposes: appliedIds (Set), applyToJob(id), isApplied(id)
 
-Apply Now CTA:
-- Prominent solid bg-gray-900 button in the sheet header (always visible)
-- Sticky footer bar with "Apply for this Position" + "Back to listings"
-- Both CTAs use the same black solid style, no gradients
-- Sheet body scrolls independently between fixed header and sticky footer
+Applied indicator on JobCard:
+- Small "Applied" badge (emerald, with CheckCircle2) inline with job title
+- CheckCircle2 overlay dot on the company logo avatar
+
+"Show Applied Jobs" toggle (FilterBar):
+- Custom WAI-ARIA role="switch" toggle in a secondary filter row
+- Displays applied count badge next to the label
+- Active state: solid black track; inactive: white with gray border
+- "Clear" button and handleReset() both reset the toggle
+
+Shadcn Sonner integration:
+- Added sonner component via shadcn CLI
+- Toaster mounted in layout.tsx with position="bottom-right" richColors
+- ThemeProvider (next-themes) wraps app with forcedTheme="light"

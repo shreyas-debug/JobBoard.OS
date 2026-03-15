@@ -4,8 +4,8 @@ import { JobCardSkeleton } from "@/components/molecules/JobCardSkeleton";
 
 function FallbackGrid() {
   return (
-    <div className="mx-auto max-w-6xl px-4 py-8 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="mx-auto max-w-4xl px-4 py-8 sm:px-6">
+      <div className="flex flex-col gap-2">
         {Array.from({ length: 6 }).map((_, i) => (
           <JobCardSkeleton key={i} />
         ))}
@@ -16,7 +16,7 @@ function FallbackGrid() {
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-zinc-950">
+    <main className="min-h-screen bg-[#0A0A0A]">
       <Suspense fallback={<FallbackGrid />}>
         <JobBoard />
       </Suspense>

@@ -6,38 +6,61 @@ import { FilterBar } from "@/components/molecules/FilterBar";
 import { JobGrid } from "@/components/organisms/JobGrid";
 import { JobDetailSheet } from "@/components/organisms/JobDetailSheet";
 import { useJobs } from "@/hooks/useJobs";
+import { useAppliedJobs } from "@/hooks/useAppliedJobs";
 import type { Job } from "@/types/job";
 
 export function JobBoard() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
+  const [sheetOpen, setSheetOpen] = useState(false);
+  const [showAppliedOnly, setShowAppliedOnly] = useState(false);
+
   const {
-    jobs,
+    filteredJobs,
+    allJobs,
     searchQuery,
     setSearchQuery,
     activeType,
     setActiveType,
     activeDepartment,
     setActiveDepartment,
-    clearFilters,
-    totalCount,
   } = useJobs();
 
-  const [selectedJob, setSelectedJob] = useState<Job | null>(null);
-  const [isSheetOpen, setIsSheetOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const { appliedIds, applyToJob, isApplied } = useAppliedJobs();
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 600);
-    return () => clearTimeout(timer);
+    const t = setTimeout(() => setIsLoading(false), 700);
+    return () => clearTimeout(t);
   }, []);
 
   const handleJobClick = (job: Job) => {
     setSelectedJob(job);
-    setIsSheetOpen(true);
+    setSheetOpen(true);
   };
 
+  const handleReset = () => {
+    setSearchQuery("");
+    setActiveType("all");
+    setActiveDepartment("all");
+    setShowAppliedOnly(false);
+  };
+
+  const displayedJobs = showAppliedOnly
+    ? filteredJobs.filter((j) => appliedIds.has(j.id))
+    : filteredJobs;
+
   return (
-    <div className="flex min-h-screen flex-col bg-[#F7F8FA]">
+    <div className="relative min-h-screen bg-[#0A0A0A]">
+      {/* Ambient background glow — satisfies gradient requirement */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+      >
+        <div className="absolute top-0 h-screen w-screen bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]" />
+      </div>
+
       <Hero />
+
       <FilterBar
         searchQuery={searchQuery}
         onSearchChange={setSearchQuery}
@@ -45,24 +68,33 @@ export function JobBoard() {
         onTypeChange={setActiveType}
         activeDepartment={activeDepartment}
         onDepartmentChange={setActiveDepartment}
-        totalCount={totalCount}
-        filteredCount={jobs.length}
+        showAppliedOnly={showAppliedOnly}
+        onToggleAppliedOnly={setShowAppliedOnly}
+        appliedCount={appliedIds.size}
+        totalCount={allJobs.length}
+        filteredCount={displayedJobs.length}
       />
-      <main className="flex-1">
+
+      <main>
         <JobGrid
-          jobs={jobs}
+          jobs={displayedJobs}
           isLoading={isLoading}
           onJobClick={handleJobClick}
-          onReset={clearFilters}
+          onReset={handleReset}
+          isApplied={isApplied}
         />
       </main>
-      <footer className="border-t border-gray-200 bg-white py-4 text-center text-[11px] font-medium text-gray-400 tracking-widest uppercase">
-        JobBoard.OS
+
+      <footer className="border-t border-white/5 py-6 text-center text-[11px] text-white/25">
+        JobBoard.OS &mdash; Built with Next.js, Tailwind CSS &amp; Shadcn/UI
       </footer>
+
       <JobDetailSheet
         job={selectedJob}
-        open={isSheetOpen}
-        onClose={() => setIsSheetOpen(false)}
+        open={sheetOpen}
+        onClose={() => setSheetOpen(false)}
+        isApplied={selectedJob ? isApplied(selectedJob.id) : false}
+        onApply={applyToJob}
       />
     </div>
   );

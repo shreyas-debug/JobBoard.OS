@@ -2,21 +2,21 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function JobCardSkeleton() {
   return (
-    <div className="flex items-center gap-4 border-b border-gray-200 bg-white px-5 py-4 last:border-b-0">
-      <Skeleton className="h-11 w-11 shrink-0 rounded-xl bg-gray-100" />
-      <div className="min-w-0 flex-1 space-y-2">
+    <div className="flex items-center gap-5 rounded-xl border border-white/[0.05] bg-white/[0.02] px-6 py-5">
+      <Skeleton className="h-11 w-11 shrink-0 rounded-xl bg-white/5" />
+      <div className="min-w-0 flex-1 space-y-2.5">
         <div className="flex items-center gap-2">
-          <Skeleton className="h-3.5 w-44 bg-gray-100" />
-          <Skeleton className="h-3.5 w-16 bg-gray-100" />
-          <Skeleton className="h-3.5 w-20 bg-gray-100" />
+          <Skeleton className="h-3.5 w-44 bg-white/5" />
+          <Skeleton className="h-3.5 w-16 bg-white/5 rounded-full" />
+          <Skeleton className="h-3.5 w-20 bg-white/5 rounded-full" />
         </div>
-        <div className="flex items-center gap-2">
-          <Skeleton className="h-3 w-14 bg-gray-100" />
-          <Skeleton className="h-3 w-16 bg-gray-100" />
-          <Skeleton className="h-3 w-28 bg-gray-100" />
+        <div className="flex items-center gap-3">
+          <Skeleton className="h-3 w-14 bg-white/5" />
+          <Skeleton className="h-3 w-20 bg-white/5" />
+          <Skeleton className="h-3 w-24 bg-white/5" />
         </div>
       </div>
-      <Skeleton className="h-3.5 w-3.5 bg-gray-100" />
+      <Skeleton className="h-4 w-4 shrink-0 rounded bg-white/5" />
     </div>
   );
 }

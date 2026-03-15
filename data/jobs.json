@@ -7,7 +7,7 @@
     "type": "Full-time",
     "salaryRange": "$120k – $160k",
     "companyName": "Vercel",
-    "logoUrl": "https://logo.clearbit.com/vercel.com",
+    "logoUrl": "https://cdn.simpleicons.org/vercel/ffffff",
     "description": "We are looking for a Senior Frontend Engineer to join our core platform team. You will be responsible for building and maintaining high-performance web applications used by millions of developers worldwide. You'll work closely with design and backend teams to ship features that set the bar for developer tooling.\n\nKey Responsibilities:\n- Architect and implement scalable React components and design systems\n- Drive performance optimization across the platform (Core Web Vitals, bundle size)\n- Collaborate with designers to deliver pixel-perfect, accessible UIs\n- Mentor junior engineers and lead technical discussions\n\nRequirements:\n- 5+ years of experience with React and modern JavaScript (ES2022+)\n- Deep expertise with Next.js, TypeScript, and Tailwind CSS\n- Strong understanding of browser internals, rendering pipelines, and performance profiling\n- Experience with CI/CD pipelines and modern DevOps practices",
     "postedAt": "2026-03-12"
   },
@@ -19,7 +19,7 @@
     "type": "Full-time",
     "salaryRange": "£70k – £90k",
     "companyName": "Linear",
-    "logoUrl": "https://logo.clearbit.com/linear.app",
+    "logoUrl": "https://cdn.simpleicons.org/linear/ffffff",
     "description": "Linear is hiring a Product Designer to help shape the future of software project management. You will own end-to-end design for key product areas — from early-stage discovery and user research through to polished, shipped features.\n\nKey Responsibilities:\n- Lead design for one or more product squads, partnering directly with PMs and engineers\n- Run user interviews, usability tests, and synthesise insights into actionable decisions\n- Produce high-fidelity mockups and interactive prototypes in Figma\n- Define and evolve design system components and patterns\n\nRequirements:\n- 4+ years of product design experience, ideally in B2B SaaS\n- Expert-level Figma skills with a strong portfolio demonstrating complex UX problem-solving\n- Excellent communication skills — you can explain design decisions to any audience\n- A sharp eye for visual detail and a passion for typography and motion",
     "postedAt": "2026-03-11"
   },
@@ -31,7 +31,7 @@
     "type": "Full-time",
     "salaryRange": "$130k – $175k",
     "companyName": "Stripe",
-    "logoUrl": "https://logo.clearbit.com/stripe.com",
+    "logoUrl": "https://cdn.simpleicons.org/stripe/ffffff",
     "description": "Join Stripe's Infrastructure team and work on the systems that process hundreds of billions of dollars in payments annually. This role is focused on building the reliability, scalability, and observability tooling that keeps Stripe running at global scale.\n\nKey Responsibilities:\n- Design and operate distributed systems handling millions of transactions per second\n- Build internal developer platforms that increase engineering velocity across 3,000+ engineers\n- Lead incident response for critical infrastructure events and drive post-mortems\n- Define SLOs, error budgets, and reliability roadmaps for core services\n\nRequirements:\n- 6+ years of backend engineering experience with a focus on distributed systems\n- Proficiency in Go, Java, or Ruby; strong CS fundamentals\n- Deep experience with Kubernetes, Terraform, and cloud platforms (AWS/GCP)\n- Track record of owning and improving large-scale production systems",
     "postedAt": "2026-03-10"
   },
@@ -43,7 +43,7 @@
     "type": "Full-time",
     "salaryRange": "$90k – $120k",
     "companyName": "Loom",
-    "logoUrl": "https://logo.clearbit.com/loom.com",
+    "logoUrl": "https://cdn.simpleicons.org/loom/ffffff",
     "description": "Loom is searching for a Growth Marketing Manager to own acquisition and lifecycle programs that drive our next phase of growth. You'll combine data analysis with creative experimentation to find scalable growth loops across paid, owned, and earned channels.\n\nKey Responsibilities:\n- Own performance marketing campaigns across Google, LinkedIn, and Meta\n- Design and run A/B tests across landing pages, emails, and in-product growth surfaces\n- Partner with Product to build and optimise self-serve onboarding and activation flows\n- Report on funnel metrics weekly, translating data into clear executive narratives\n\nRequirements:\n- 4+ years in growth or performance marketing for a B2B SaaS product\n- Strong analytical mindset — comfortable in SQL, Amplitude, or Mixpanel\n- Experience managing significant ad spend ($500k+/year) with measurable ROI\n- Excellent copywriting and messaging instincts",
     "postedAt": "2026-03-09"
   },
@@ -55,7 +55,7 @@
     "type": "Full-time",
     "salaryRange": "$180k – $230k",
     "companyName": "Figma",
-    "logoUrl": "https://logo.clearbit.com/figma.com",
+    "logoUrl": "https://cdn.simpleicons.org/figma/ffffff",
     "description": "Figma is looking for a Staff Software Engineer to join our Platform team, where you'll define technical strategy for foundational services used by every team at the company. This is a high-impact role with broad scope and direct influence on Figma's architecture.\n\nKey Responsibilities:\n- Drive cross-team technical initiatives and own engineering roadmaps for platform-level systems\n- Design APIs, data pipelines, and developer tooling adopted by 200+ engineers\n- Partner with engineering leadership to define standards, RFCs, and architectural direction\n- Lead hiring and grow the technical bar of the platform organisation\n\nRequirements:\n- 10+ years of software engineering experience with staff-level scope\n- Exceptional system design skills — you've designed systems that run at significant scale\n- Strong cross-functional communication and the ability to influence without authority\n- Experience leading complex multi-team technical projects from inception to production",
     "postedAt": "2026-03-08"
   },
@@ -67,7 +67,7 @@
     "type": "Contract",
     "salaryRange": "$95/hr – $130/hr",
     "companyName": "Notion",
-    "logoUrl": "https://logo.clearbit.com/notion.so",
+    "logoUrl": "https://cdn.simpleicons.org/notion/ffffff",
     "description": "Notion is seeking a UX Research Lead on a contract basis to drive research programmes for our core product areas. You will work closely with designers, PMs, and data scientists to ensure every major decision is grounded in deep user understanding.\n\nKey Responsibilities:\n- Plan and execute qualitative and quantitative research studies (interviews, surveys, diary studies, usability tests)\n- Synthesise findings into clear, actionable insights and present to stakeholders\n- Build and maintain a user research repository and insight taxonomy\n- Coach and mentor designers and PMs on research best practices\n\nRequirements:\n- 6+ years of UX research experience in a product or tech environment\n- Proficiency with Dovetail, Maze, UserTesting, or similar platforms\n- Strong storytelling and presentation skills\n- Contract engagement of 6 months with potential for extension",
     "postedAt": "2026-03-07"
   },
@@ -79,7 +79,7 @@
     "type": "Full-time",
     "salaryRange": "£80k – £105k",
     "companyName": "Monzo",
-    "logoUrl": "https://logo.clearbit.com/monzo.com",
+    "logoUrl": "https://cdn.simpleicons.org/monzo/ffffff",
     "description": "Monzo's Design Systems team is hiring a Frontend Engineer to evolve our component library used across all of Monzo's consumer and business products. You'll sit at the intersection of engineering and design, ensuring our system is accessible, performant, and delightful.\n\nKey Responsibilities:\n- Build and maintain accessible, well-tested React components following WAI-ARIA standards\n- Collaborate with designers to establish tokens, theming, and visual language\n- Produce comprehensive documentation and Storybook stories for every component\n- Champion design system adoption across 20+ product squads\n\nRequirements:\n- 3+ years of frontend engineering experience with a focus on component libraries or design systems\n- Deep knowledge of accessibility standards (WCAG 2.2, ARIA)\n- Experience with Storybook, CSS-in-JS or CSS Modules, and testing libraries\n- Excellent eye for visual detail and a collaborative working style",
     "postedAt": "2026-03-06"
   },
@@ -91,7 +91,7 @@
     "type": "Contract",
     "salaryRange": "$70/hr – $90/hr",
     "companyName": "Webflow",
-    "logoUrl": "https://logo.clearbit.com/webflow.com",
+    "logoUrl": "https://cdn.simpleicons.org/webflow/ffffff",
     "description": "Webflow is hiring a Content Marketing Strategist on a contract basis to lead content initiatives that drive organic growth and product education. You'll own the editorial calendar and create long-form content that helps designers and developers unlock the full power of Webflow.\n\nKey Responsibilities:\n- Develop and execute a quarterly content calendar aligned with product launches and SEO strategy\n- Write, edit, and commission high-quality blog posts, guides, and case studies\n- Collaborate with SEO and demand-gen teams to ensure content drives measurable pipeline\n- Manage freelance writers and external agencies\n\nRequirements:\n- 5+ years of content marketing experience in a SaaS or developer tools company\n- Exceptional writing and editing skills with a portfolio of published work\n- Hands-on experience with content SEO tools (Ahrefs, Semrush) and CMS platforms\n- 3-month contract with potential to convert to full-time",
     "postedAt": "2026-03-05"
   },
@@ -103,7 +103,7 @@
     "type": "Contract",
     "salaryRange": "$110/hr – $145/hr",
     "companyName": "Planetscale",
-    "logoUrl": "https://logo.clearbit.com/planetscale.com",
+    "logoUrl": "https://cdn.simpleicons.org/planetscale/ffffff",
     "description": "PlanetScale is looking for a contract DevOps / Platform Engineer to help us scale our managed database infrastructure. You will work on the tooling, automation, and reliability systems that underpin our global MySQL-compatible platform.\n\nKey Responsibilities:\n- Build and automate deployment pipelines using Kubernetes, Helm, and ArgoCD\n- Improve observability with custom dashboards, alerting, and runbooks in Grafana/Prometheus\n- Participate in on-call rotations and drive SRE initiatives\n- Collaborate with the product engineering team to streamline developer workflows\n\nRequirements:\n- 5+ years in a DevOps, SRE, or Platform Engineering role\n- Strong experience with Kubernetes at scale and Terraform\n- Familiarity with MySQL internals and distributed database concepts a plus\n- 6-month contract engagement",
     "postedAt": "2026-03-04"
   },
@@ -115,7 +115,7 @@
     "type": "Full-time",
     "salaryRange": "$85k – $110k",
     "companyName": "Resend",
-    "logoUrl": "https://logo.clearbit.com/resend.com",
+    "logoUrl": "https://cdn.simpleicons.org/resend/ffffff",
     "description": "Resend is looking for a Brand Designer to own our visual identity across all brand touchpoints — from marketing site and social to conference booths and swag. You'll play a foundational role in defining how the world perceives Resend as we scale.\n\nKey Responsibilities:\n- Own the Resend brand system: logo usage, typography, colour, illustration, and motion\n- Design marketing site pages, landing pages, and campaign assets\n- Create social media templates and manage the visual content calendar\n- Collaborate with the developer relations team on conference and event branding\n\nRequirements:\n- 4+ years of brand or graphic design experience, ideally in tech\n- Expert proficiency in Figma and Adobe Creative Suite (Illustrator, Photoshop)\n- Strong motion design skills in After Effects or Rive are a significant plus\n- A portfolio demonstrating a coherent, distinctive visual voice",
     "postedAt": "2026-03-03"
   },
@@ -127,7 +127,7 @@
     "type": "Full-time",
     "salaryRange": "£90k – £120k",
     "companyName": "Revolut",
-    "logoUrl": "https://logo.clearbit.com/revolut.com",
+    "logoUrl": "https://cdn.simpleicons.org/revolut/ffffff",
     "description": "Revolut's mobile team is looking for an experienced iOS Engineer to help build features used by 45 million customers worldwide. You'll work in a high-velocity environment, shipping code that has real, immediate impact at scale.\n\nKey Responsibilities:\n- Design and implement new product features in Swift and SwiftUI\n- Optimise app performance — startup time, memory usage, and network efficiency\n- Collaborate with backend engineers to define APIs and data contracts\n- Uphold a high engineering culture through rigorous code review and testing\n\nRequirements:\n- 4+ years of iOS development experience with Swift\n- Proficiency with SwiftUI and UIKit; experience with Combine or async/await\n- Strong understanding of iOS performance tooling (Instruments, Xcode Organiser)\n- Experience shipping and maintaining apps with millions of daily active users",
     "postedAt": "2026-03-02"
   },
@@ -139,7 +139,7 @@
     "type": "Full-time",
     "salaryRange": "$150k – $190k",
     "companyName": "Descript",
-    "logoUrl": "https://logo.clearbit.com/descript.com",
+    "logoUrl": "https://cdn.simpleicons.org/descript/ffffff",
     "description": "Descript is seeking a Head of Product Marketing to lead our go-to-market strategy for one of the fastest-growing creative tools on the market. You'll own positioning, messaging, launch strategy, and competitive intelligence, working directly with the CEO and CPO.\n\nKey Responsibilities:\n- Develop and own product positioning and messaging across all segments (creators, teams, enterprise)\n- Lead product launches end-to-end — from strategy and enablement through to external announcement\n- Build the product marketing function from the ground up, including hiring the first PMMs\n- Drive competitive intelligence and market research programmes\n\nRequirements:\n- 7+ years of product marketing experience, with at least 2 years at a leadership level\n- Proven track record of driving successful product launches in a B2C or PLG environment\n- Exceptional written communication and executive presence\n- Strong data orientation — you use metrics to validate strategy and measure impact",
     "postedAt": "2026-03-01"
   }

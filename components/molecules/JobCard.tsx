@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
-import { MapPin, DollarSign, ArrowRight, Clock } from "lucide-react";
+import { MapPin, DollarSign, ArrowRight, Clock, CheckCircle2 } from "lucide-react";
 import { JobBadge } from "@/components/atoms/JobBadge";
 import { LetterAvatar } from "@/components/atoms/LetterAvatar";
 import type { Job } from "@/types/job";
@@ -10,6 +9,7 @@ import type { Job } from "@/types/job";
 interface JobCardProps {
   job: Job;
   onClick: (job: Job) => void;
+  isApplied?: boolean;
 }
 
 function timeAgo(dateStr: string): string {
@@ -23,10 +23,45 @@ function timeAgo(dateStr: string): string {
   return `${Math.floor(diff / 30)}mo ago`;
 }
 
-export function JobCard({ job, onClick }: JobCardProps) {
-  const [imgError, setImgError] = useState(false);
-  const showLogo = job.logoUrl && !imgError;
+interface LogoProps {
+  logoUrl?: string | null;
+  companyName: string;
+  isApplied: boolean;
+}
 
+function CompanyLogo({ logoUrl, companyName, isApplied }: LogoProps) {
+  const [imgError, setImgError] = useState(false);
+
+  return (
+    <div className="relative shrink-0">
+      <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-white/8 bg-white/5">
+        {logoUrl && !imgError ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={logoUrl}
+            alt={`${companyName} logo`}
+            className="h-6 w-6 object-contain"
+            onError={() => setImgError(true)}
+          />
+        ) : (
+          <LetterAvatar companyName={companyName} size="sm" />
+        )}
+      </div>
+      {isApplied && (
+        <div
+          className="absolute -bottom-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#0A0A0A]"
+          aria-hidden="true"
+        >
+          <CheckCircle2 size={13} className="text-emerald-400" />
+        </div>
+      )}
+    </div>
+  );
+}
+
+export { CompanyLogo };
+
+export function JobCard({ job, onClick, isApplied = false }: JobCardProps) {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
@@ -41,31 +76,19 @@ export function JobCard({ job, onClick }: JobCardProps) {
       onClick={() => onClick(job)}
       onKeyDown={handleKeyDown}
       aria-label={`View details for ${job.title} at ${job.companyName}`}
-      className="group flex cursor-pointer items-center gap-4 border-b border-gray-200 bg-white px-5 py-4 transition-colors duration-100 last:border-b-0 hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gray-900"
+      className="group flex cursor-pointer items-center gap-5 rounded-xl border border-white/[0.05] bg-white/[0.02] px-6 py-5 transition-all duration-300 ease-out hover:bg-white/[0.04] hover:border-white/[0.1] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/20"
     >
-      {/* Logo */}
-      <div className="shrink-0">
-        {showLogo ? (
-          <div className="relative h-11 w-11 overflow-hidden rounded-xl border border-gray-200 bg-white">
-            <Image
-              src={job.logoUrl!}
-              alt={`${job.companyName} logo`}
-              fill
-              className="object-contain p-1.5"
-              onError={() => setImgError(true)}
-              sizes="44px"
-            />
-          </div>
-        ) : (
-          <LetterAvatar companyName={job.companyName ?? job.title} size="md" />
-        )}
-      </div>
+      <CompanyLogo
+        logoUrl={job.logoUrl}
+        companyName={job.companyName ?? job.title}
+        isApplied={isApplied}
+      />
 
       {/* Content */}
       <div className="min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-2">
           <h2
-            className="text-[14px] font-semibold text-gray-900 truncate"
+            className="text-[14px] font-semibold tracking-tight text-white/90 truncate"
             title={job.title}
           >
             {job.title}
@@ -74,32 +97,38 @@ export function JobCard({ job, onClick }: JobCardProps) {
             <JobBadge label={job.type} />
             <JobBadge label={job.department} />
           </div>
+          {isApplied && (
+            <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-semibold text-emerald-400">
+              <CheckCircle2 size={9} aria-hidden="true" />
+              Applied
+            </span>
+          )}
         </div>
 
-        <div className="mt-1 flex flex-wrap items-center gap-x-2.5 gap-y-0.5 text-[12px] text-gray-500">
-          <span className="font-medium text-gray-600">{job.companyName}</span>
-          <span className="text-gray-300" aria-hidden="true">/</span>
+        <div className="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-[12px] text-white/40">
+          <span className="font-medium text-white/60">{job.companyName}</span>
+          <span className="text-white/20" aria-hidden="true">·</span>
           <span className="flex items-center gap-1">
             <MapPin size={10} aria-hidden="true" />
             {job.location}
           </span>
-          <span className="text-gray-300" aria-hidden="true">/</span>
+          <span className="text-white/20" aria-hidden="true">·</span>
           <span className="flex items-center gap-1">
             <DollarSign size={10} aria-hidden="true" />
             {job.salaryRange}
           </span>
-          <span className="text-gray-300" aria-hidden="true">/</span>
-          <span className="flex items-center gap-1 text-gray-400">
+          <span className="text-white/20" aria-hidden="true">·</span>
+          <span className="flex items-center gap-1 text-white/30">
             <Clock size={10} aria-hidden="true" />
             {timeAgo(job.postedAt)}
           </span>
         </div>
       </div>
 
-      {/* Arrow */}
+      {/* Arrow — slides right on hover */}
       <ArrowRight
-        size={15}
-        className="shrink-0 text-gray-300 transition-colors duration-100 group-hover:text-gray-600"
+        size={14}
+        className="shrink-0 text-white/15 transition-all duration-300 group-hover:translate-x-1 group-hover:text-white/50"
         aria-hidden="true"
       />
     </article>

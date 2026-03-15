@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { ThemeProvider } from "next-themes";
+import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -14,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#F7F8FA",
+  themeColor: "#0A0A0A",
   width: "device-width",
   initialScale: 1,
 };
@@ -31,12 +33,6 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
   },
-  twitter: {
-    card: "summary_large_image",
-    title: "JobBoard.OS — Find Your Next Role",
-    description:
-      "Discover top engineering, design, and marketing roles at the world's best technology companies.",
-  },
   robots: { index: true, follow: true },
 };
 
@@ -44,12 +40,15 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen antialiased`}
-        style={{ backgroundColor: "#F7F8FA", color: "#111827" }}
+        style={{ backgroundColor: "#0A0A0A", color: "#ffffff" }}
       >
-        {children}
+        <ThemeProvider attribute="class" forcedTheme="dark" disableTransitionOnChange>
+          {children}
+          <Toaster position="bottom-right" theme="dark" />
+        </ThemeProvider>
       </body>
     </html>
   );
