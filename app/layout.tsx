@@ -22,12 +22,12 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "JobBoard.OS — Find Your Next Role",
+  title: "JobBoard.OS",
   description:
     "Discover top engineering, design, and marketing roles at the world's best technology companies. Filter by type, department, and location.",
   keywords: ["jobs", "engineering jobs", "design jobs", "remote work", "tech careers"],
   openGraph: {
-    title: "JobBoard.OS — Find Your Next Role",
+    title: "JobBoard.OS",
     description:
       "Discover top engineering, design, and marketing roles at the world's best technology companies.",
     type: "website",
