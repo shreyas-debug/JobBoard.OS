@@ -60,11 +60,13 @@ export function FilterBar({
     DEPARTMENTS.find((d) => d.value === activeDepartment)?.label ??
     "All Departments";
 
+  const deptIsActive = activeDepartment !== "all";
+
   return (
     <div className="sticky top-0 z-40 border-b border-white/5 bg-[#0A0A0A]/90 backdrop-blur-xl">
       <div className="mx-auto max-w-4xl px-4 sm:px-6">
 
-        {/* ── Row 1: Search (stable width) + count ── */}
+        {/* ── Row 1: Search (always stable width) + count ── */}
         <div className="flex items-center gap-3 pt-3 pb-2">
           <div className="relative flex-1">
             <Search
@@ -78,7 +80,7 @@ export function FilterBar({
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
               aria-label="Search jobs by title or company"
-              className="w-full h-9 rounded-lg border border-white/8 bg-white/5 pl-8 pr-8 text-[13px] text-white/90 placeholder:text-white/30 outline-none transition-colors focus:border-white/20 focus:bg-white/[0.07]"
+              className="w-full h-9 rounded-lg border border-white/8 bg-white/5 pl-8 pr-8 text-[13px] text-white/90 placeholder:text-white/30 outline-none transition-all focus:border-white/20 focus:bg-white/[0.07]"
             />
             {searchQuery && (
               <button
@@ -115,14 +117,14 @@ export function FilterBar({
           </div>
         </div>
 
-        {/* ── Row 2: Filter chips (scrollable on mobile) ── */}
+        {/* ── Row 2: Filter chips ── */}
         <div className="flex items-center gap-2 overflow-x-auto pb-3 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
 
-          {/* Type pills */}
+          {/* Type pills — tinted active (no jarring solid white) */}
           <div
             role="group"
             aria-label="Filter by job type"
-            className="flex shrink-0 items-center gap-0.5 rounded-lg border border-white/8 bg-white/5 p-0.5"
+            className="flex shrink-0 items-center gap-0.5 rounded-lg border border-white/8 bg-white/[0.03] p-0.5"
           >
             {JOB_TYPES.map(({ value, label }) => (
               <button
@@ -131,10 +133,10 @@ export function FilterBar({
                 onClick={() => onTypeChange(value)}
                 aria-pressed={activeType === value}
                 className={cn(
-                  "h-7 rounded-md px-3 text-[12px] font-medium whitespace-nowrap transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/30",
+                  "h-7 rounded-md px-3 text-[12px] whitespace-nowrap transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/30",
                   activeType === value
-                    ? "bg-white text-black font-semibold"
-                    : "text-white/50 hover:text-white/80"
+                    ? "bg-white/10 text-white font-semibold border border-white/20"
+                    : "font-medium text-white/45 hover:text-white/75"
                 )}
               >
                 {label}
@@ -142,24 +144,24 @@ export function FilterBar({
             ))}
           </div>
 
-          {/* Department select */}
+          {/* Department select — trigger lights up when active */}
           <Select
             value={activeDepartment}
             onValueChange={(val) => onDepartmentChange(val ?? "all")}
           >
             <SelectTrigger
               aria-label="Filter by department"
-              className="h-8 w-[148px] shrink-0 text-[12px] border-white/8 bg-white/5 text-white/60 focus:ring-0 focus:border-white/20 rounded-lg"
+              className={cn(
+                "h-8 w-[152px] shrink-0 text-[12px]",
+                deptIsActive && "border-white/20 bg-white/[0.08] text-white"
+              )}
             >
               <SelectValue>{selectedDeptLabel}</SelectValue>
             </SelectTrigger>
-            <SelectContent className="bg-[#111111] border-white/10 rounded-xl shadow-2xl">
+            {/* SelectContent now uses dark glass defaults from select.tsx */}
+            <SelectContent align="start">
               {DEPARTMENTS.map(({ value, label }) => (
-                <SelectItem
-                  key={value}
-                  value={value}
-                  className="text-[13px] text-white/70 focus:bg-white/10 focus:text-white rounded-lg"
-                >
+                <SelectItem key={value} value={value}>
                   {label}
                 </SelectItem>
               ))}
@@ -176,7 +178,7 @@ export function FilterBar({
               "flex h-8 shrink-0 items-center gap-1.5 rounded-lg border px-3 text-[12px] font-medium whitespace-nowrap transition-all duration-150 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/30",
               showAppliedOnly
                 ? "border-emerald-500/40 bg-emerald-500/10 text-emerald-400"
-                : "border-white/8 bg-white/5 text-white/50 hover:text-white/80"
+                : "border-white/8 bg-white/[0.03] text-white/45 hover:text-white/75 hover:bg-white/[0.06] hover:border-white/15"
             )}
           >
             <CheckCheck size={12} aria-hidden="true" />
@@ -187,7 +189,7 @@ export function FilterBar({
                   "ml-0.5 rounded px-1.5 py-0.5 text-[10px] font-bold tabular-nums leading-none",
                   showAppliedOnly
                     ? "bg-emerald-500/20 text-emerald-400"
-                    : "bg-white/10 text-white/50"
+                    : "bg-white/10 text-white/45"
                 )}
               >
                 {appliedCount}

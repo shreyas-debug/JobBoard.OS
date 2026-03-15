@@ -1,27 +1,33 @@
-feat: apply flow with localStorage persistence, toast, and applied filter
+feat: dark theme overhaul, apply flow, and premium SaaS polish
 
-Apply Now button (JobDetailSheet):
-- Simulates 1-second network request with Loader2 spinner and "Submitting…" text
-- On success: fires Sonner toast ("Application submitted!" with job title/company)
-- Disabled "Applied" state (emerald chip + CheckCircle2) when job_id is in storage
-- Two CTAs: header button (always in view) and sticky footer button
+Dark theme satisfies assignment brief:
+- Global bg-[#0A0A0A], fixed radial-gradient ambient glow (rgba(120,119,198,0.15))
+- FilterBar: bg-[#0A0A0A]/90 backdrop-blur-xl (subtle blur requirement)
+- Sheet overlay: bg-black/60 backdrop-blur-sm (blurred modal requirement)
+- Cards: glassmorphism bg-white/[0.02] border-white/[0.05], hover brightens
+- Badges: rounded-full bg-white/[0.05] text-white/60
+- Sheet: bg-[#0A0A0A] border-l border-white/10, bento tiles bg-white/[0.03]
 
-localStorage persistence (hooks/useAppliedJobs.ts):
-- New hook reads/writes a Set of applied job IDs to localStorage key "jobboard_applied_ids"
-- Survives page refresh; handles JSON parse errors and storage write failures gracefully
-- Exposes: appliedIds (Set), applyToJob(id), isApplied(id)
+Company logos (guaranteed visible):
+- cdn.simpleicons.org/{slug}/ffffff (white SVGs, no auth, no rate limit)
+- Plain img tag with onError -> LetterAvatar fallback
+- Same logo logic in JobCard and JobDetailSheet (no inconsistency)
+- LetterAvatar: dark-mode palette with tinted bgs and matching text
 
-Applied indicator on JobCard:
-- Small "Applied" badge (emerald, with CheckCircle2) inline with job title
-- CheckCircle2 overlay dot on the company logo avatar
+Apply flow (senior-level feature):
+- Sonner toast on successful apply (1s simulated network request)
+- localStorage persists applied job IDs across page refreshes
+- Applied badge on cards and disabled emerald state in sheet footer
+- Applied filter chip in FilterBar that glows emerald when active
 
-"Show Applied Jobs" toggle (FilterBar):
-- Custom WAI-ARIA role="switch" toggle in a secondary filter row
-- Displays applied count badge next to the label
-- Active state: solid black track; inactive: white with gray border
-- "Clear" button and handleReset() both reset the toggle
+FilterBar stability fix:
+- 2-row layout: search always full-width on row 1, chips on row 2
+- No resizing when toggling filters or Applied count badge appears
+- Horizontal scroll on mobile chip row, no layout shift
 
-Shadcn Sonner integration:
-- Added sonner component via shadcn CLI
-- Toaster mounted in layout.tsx with position="bottom-right" richColors
-- ThemeProvider (next-themes) wraps app with forcedTheme="light"
+Additional polish:
+- Hero: compact, text-white/90, immediate job list visibility on load
+- JobCard: arrow slides right on hover (translate-x-1 transition)
+- Sheet: single Apply CTA in sticky footer, 2x2 bento metadata grid
+- Architecture: Atomic design, URL-synced filters, useDebounce 300ms
+- Keyboard nav (Esc/Enter/Space), WAI-ARIA roles throughout

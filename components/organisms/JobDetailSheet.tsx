@@ -9,7 +9,7 @@ import {
   SheetDescription,
 } from "@/components/ui/sheet";
 import { JobBadge } from "@/components/atoms/JobBadge";
-import { LetterAvatar } from "@/components/atoms/LetterAvatar";
+import { CompanyLogo } from "@/components/atoms/CompanyLogo";
 import {
   MapPin,
   DollarSign,
@@ -28,26 +28,6 @@ interface JobDetailSheetProps {
   onClose: () => void;
   isApplied: boolean;
   onApply: (jobId: string) => void;
-}
-
-function SheetLogo({ logoUrl, companyName }: { logoUrl?: string | null; companyName: string }) {
-  const [imgError, setImgError] = useState(false);
-
-  if (logoUrl && !imgError) {
-    return (
-      <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-white/8 bg-white/5">
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img
-          src={logoUrl}
-          alt={`${companyName} logo`}
-          className="h-6 w-6 object-contain"
-          onError={() => setImgError(true)}
-        />
-      </div>
-    );
-  }
-
-  return <LetterAvatar companyName={companyName} size="md" />;
 }
 
 export function JobDetailSheet({
@@ -89,7 +69,7 @@ export function JobDetailSheet({
         {/* Header — pr-12 clears Shadcn's built-in X button */}
         <div className="shrink-0 border-b border-white/5 px-6 pb-5 pt-5 pr-12">
           <div className="flex items-start gap-3">
-            <SheetLogo logoUrl={job.logoUrl} companyName={job.companyName ?? job.title} />
+            <CompanyLogo logoUrl={job.logoUrl} companyName={job.companyName ?? job.title} size="md" />
             <div className="min-w-0">
               <p className="text-[11px] font-bold uppercase tracking-widest text-white/30">
                 {job.companyName}
@@ -191,7 +171,7 @@ export function JobDetailSheet({
         <div className="shrink-0 border-t border-white/5 px-6 py-4">
           {isApplied ? (
             <div
-              className="flex w-full items-center justify-center gap-2 rounded-lg border border-emerald-500/30 bg-emerald-500/10 py-3 text-[13px] font-semibold text-emerald-400"
+              className="flex w-full items-center justify-center gap-2 rounded-lg border border-emerald-500/30 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 py-3 text-[13px] font-semibold text-emerald-400"
               aria-label="Already applied"
             >
               <CheckCircle2 size={14} aria-hidden="true" />

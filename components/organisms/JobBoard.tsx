@@ -50,14 +50,7 @@ export function JobBoard() {
     : filteredJobs;
 
   return (
-    <div className="relative min-h-screen bg-[#0A0A0A]">
-      {/* Ambient background glow — satisfies gradient requirement */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
-      >
-        <div className="absolute top-0 h-screen w-screen bg-[radial-gradient(ellipse_80%_80%_at_50%_-20%,rgba(120,119,198,0.15),rgba(255,255,255,0))]" />
-      </div>
+    <div className="relative min-h-screen bg-[#0A0A0A] bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]">
 
       <Hero />
 
