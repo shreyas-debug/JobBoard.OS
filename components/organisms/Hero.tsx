@@ -1,50 +1,45 @@
-import { Briefcase } from "lucide-react";
-
 export function Hero() {
   return (
-    <section className="relative overflow-hidden py-20 sm:py-28">
-      {/* Spotlight glow */}
+    <section className="relative overflow-hidden border-b border-gray-200 bg-white py-16 sm:py-20">
+      {/* Subtle blue radial glow top-center */}
       <div
-        className="pointer-events-none absolute inset-0 flex items-center justify-center"
+        className="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 h-[400px] w-[700px] rounded-full bg-blue-100/60 blur-[100px]"
         aria-hidden="true"
-      >
-        <div
-          className="h-[500px] w-[500px] rounded-full bg-violet-600/10 blur-[120px]"
-          style={{ animation: "spotlight 6s ease-in-out infinite" }}
-        />
-      </div>
+      />
 
-      {/* Subtle grid overlay */}
+      {/* Dot grid — very faint */}
       <div
-        className="pointer-events-none absolute inset-0 opacity-[0.03]"
+        className="pointer-events-none absolute inset-0 opacity-40"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.4) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.4) 1px, transparent 1px)",
-          backgroundSize: "48px 48px",
+            "radial-gradient(circle, #CBD5E1 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+          maskImage:
+            "radial-gradient(ellipse 70% 60% at 50% 100%, black 0%, transparent 100%)",
         }}
         aria-hidden="true"
       />
 
-      <div className="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 text-center">
-        {/* Badge */}
-        <div className="inline-flex items-center gap-2 rounded-full border border-violet-500/20 bg-violet-500/5 px-3.5 py-1.5 text-xs font-medium text-violet-400 mb-6">
-          <Briefcase size={12} aria-hidden="true" />
-          <span>12 open positions</span>
+      <div className="relative mx-auto max-w-4xl px-4 sm:px-6 lg:px-8 text-center">
+        {/* Eyebrow */}
+        <div className="inline-flex items-center gap-2 rounded-full border border-blue-200 bg-blue-50 px-3.5 py-1 text-xs font-semibold text-blue-600 mb-7 tracking-wide uppercase">
+          <span className="relative flex h-2 w-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-60" />
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-blue-500" />
+          </span>
+          12 open positions
         </div>
 
         {/* Headline */}
-        <h1 className="text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
-          <span className="block bg-gradient-to-r from-white to-zinc-500 bg-clip-text text-transparent leading-tight">
-            Find your next role.
-          </span>
-          <span className="block bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent leading-tight mt-1">
-            Build what matters.
+        <h1 className="text-[2.6rem] font-bold tracking-tight text-gray-900 sm:text-5xl lg:text-[3.25rem] leading-[1.15]">
+          Find your next{" "}
+          <span className="bg-gradient-to-r from-blue-600 to-cyan-500 bg-clip-text text-transparent">
+            great role.
           </span>
         </h1>
 
-        {/* Subheading */}
-        <p className="mx-auto mt-6 max-w-xl text-base leading-relaxed text-zinc-400 sm:text-lg">
-          Curated engineering, design, and marketing roles at the world&apos;s
+        <p className="mx-auto mt-5 max-w-lg text-[15px] leading-relaxed text-gray-500">
+          Curated engineering, design, and marketing positions at the world&apos;s
           most forward-thinking technology companies.
         </p>
       </div>

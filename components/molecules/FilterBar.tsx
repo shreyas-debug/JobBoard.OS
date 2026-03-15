@@ -1,7 +1,6 @@
 "use client";
 
-import { Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import { Search, X } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -23,7 +22,7 @@ interface FilterBarProps {
 }
 
 const JOB_TYPES = [
-  { value: "all", label: "All" },
+  { value: "all", label: "All Types" },
   { value: "Full-time", label: "Full-time" },
   { value: "Contract", label: "Contract" },
 ] as const;
@@ -45,33 +44,50 @@ export function FilterBar({
   totalCount,
   filteredCount,
 }: FilterBarProps) {
+  const hasActiveFilters =
+    searchQuery || activeType !== "all" || activeDepartment !== "all";
+
+  const selectedDeptLabel =
+    DEPARTMENTS.find((d) => d.value === activeDepartment)?.label ??
+    "All Departments";
+
   return (
-    <div className="sticky top-0 z-40 border-b border-zinc-800/60 bg-zinc-950/80 backdrop-blur-xl">
-      <div className="mx-auto max-w-6xl px-4 py-4 sm:px-6 lg:px-8">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
+    <div className="sticky top-0 z-40 border-b border-gray-200 bg-white/95 backdrop-blur-sm">
+      <div className="mx-auto max-w-4xl px-4 py-3 sm:px-6">
+        <div className="flex flex-col gap-2.5 sm:flex-row sm:items-center sm:gap-3">
 
           {/* Search */}
-          <div className="relative flex-1 sm:max-w-xs">
+          <div className="relative flex-1">
             <Search
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none"
-              size={15}
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none"
+              size={14}
               aria-hidden="true"
             />
-            <Input
+            <input
               type="search"
-              placeholder="Search roles or companies…"
+              placeholder="Search by title or company…"
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
               aria-label="Search jobs by title or company"
-              className="pl-9 bg-zinc-900/60 border-zinc-800 text-zinc-200 placeholder:text-zinc-500 focus-visible:border-violet-500 focus-visible:ring-violet-500/20 h-9 text-sm"
+              className="w-full h-9 rounded-lg border border-gray-200 bg-gray-50 pl-9 pr-3 text-[13px] text-gray-800 placeholder:text-gray-400 outline-none focus:border-blue-400 focus:ring-2 focus:ring-blue-100 transition-all"
             />
+            {searchQuery && (
+              <button
+                type="button"
+                onClick={() => onSearchChange("")}
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 transition-colors"
+                aria-label="Clear search"
+              >
+                <X size={13} />
+              </button>
+            )}
           </div>
 
-          {/* Job Type pills */}
+          {/* Type pills */}
           <div
             role="group"
             aria-label="Filter by job type"
-            className="flex items-center gap-1"
+            className="flex items-center gap-1 rounded-lg border border-gray-200 bg-gray-50 p-1"
           >
             {JOB_TYPES.map(({ value, label }) => (
               <button
@@ -80,10 +96,10 @@ export function FilterBar({
                 onClick={() => onTypeChange(value)}
                 aria-pressed={activeType === value}
                 className={cn(
-                  "h-8 rounded-full px-3 text-xs font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-1 focus-visible:ring-offset-zinc-950",
+                  "h-7 rounded-md px-3 text-[12px] font-semibold transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500",
                   activeType === value
-                    ? "bg-violet-600 text-white shadow-sm shadow-violet-900/40"
-                    : "text-zinc-400 hover:bg-zinc-800 hover:text-zinc-200"
+                    ? "bg-white text-blue-600 shadow-sm border border-gray-200"
+                    : "text-gray-500 hover:text-gray-800"
                 )}
               >
                 {label}
@@ -98,16 +114,16 @@ export function FilterBar({
           >
             <SelectTrigger
               aria-label="Filter by department"
-              className="w-full sm:w-[160px] h-8 bg-zinc-900/60 border-zinc-800 text-zinc-300 text-xs focus:ring-violet-500/20 focus:border-violet-500"
+              className="w-full sm:w-[165px] h-9 text-[13px] border-gray-200 bg-gray-50 text-gray-700 focus:ring-blue-100 focus:border-blue-400 rounded-lg"
             >
-              <SelectValue placeholder="Department" />
+              <SelectValue>{selectedDeptLabel}</SelectValue>
             </SelectTrigger>
-            <SelectContent className="bg-zinc-900 border-zinc-800">
+            <SelectContent className="bg-white border-gray-200 rounded-xl shadow-lg">
               {DEPARTMENTS.map(({ value, label }) => (
                 <SelectItem
                   key={value}
                   value={value}
-                  className="text-zinc-300 text-xs focus:bg-zinc-800 focus:text-zinc-100"
+                  className="text-[13px] text-gray-700 focus:bg-blue-50 focus:text-blue-700 rounded-lg"
                 >
                   {label}
                 </SelectItem>
@@ -115,12 +131,27 @@ export function FilterBar({
             </SelectContent>
           </Select>
 
-          {/* Count */}
-          <span className="shrink-0 text-xs text-zinc-500 sm:ml-auto">
-            {filteredCount === totalCount
-              ? `${totalCount} roles`
-              : `${filteredCount} of ${totalCount} roles`}
-          </span>
+          {/* Count + clear */}
+          <div className="flex items-center gap-2 sm:ml-auto shrink-0">
+            <span className="text-[12px] font-medium text-gray-400 tabular-nums">
+              {filteredCount === totalCount
+                ? `${totalCount} roles`
+                : `${filteredCount} of ${totalCount}`}
+            </span>
+            {hasActiveFilters && (
+              <button
+                type="button"
+                onClick={() => {
+                  onSearchChange("");
+                  onTypeChange("all");
+                  onDepartmentChange("all");
+                }}
+                className="text-[11px] font-semibold text-blue-600 hover:text-blue-700 transition-colors"
+              >
+                Clear
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

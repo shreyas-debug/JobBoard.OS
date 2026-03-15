@@ -26,7 +26,7 @@ export function JobBoard() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 800);
+    const timer = setTimeout(() => setIsLoading(false), 700);
     return () => clearTimeout(timer);
   }, []);
 
@@ -35,12 +35,8 @@ export function JobBoard() {
     setIsSheetOpen(true);
   };
 
-  const handleSheetClose = () => {
-    setIsSheetOpen(false);
-  };
-
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex min-h-screen flex-col" style={{ backgroundColor: "#F7F8FA" }}>
       <Hero />
       <FilterBar
         searchQuery={searchQuery}
@@ -60,15 +56,13 @@ export function JobBoard() {
           onReset={clearFilters}
         />
       </main>
-      <footer className="border-t border-zinc-800/60 py-6 text-center text-xs text-zinc-600">
-        <p>
-          JobBoard.OS &mdash; Built with Next.js &amp; Tailwind CSS
-        </p>
+      <footer className="border-t border-gray-200 bg-white py-5 text-center text-[11px] font-medium text-gray-400 tracking-wide">
+        JobBoard.OS
       </footer>
       <JobDetailSheet
         job={selectedJob}
         open={isSheetOpen}
-        onClose={handleSheetClose}
+        onClose={() => setIsSheetOpen(false)}
       />
     </div>
   );

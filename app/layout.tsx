@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const viewport: Viewport = {
-  themeColor: "#09090b",
+  themeColor: "#F7F8FA",
   width: "device-width",
   initialScale: 1,
 };
@@ -23,15 +23,7 @@ export const metadata: Metadata = {
   title: "JobBoard.OS — Find Your Next Role",
   description:
     "Discover top engineering, design, and marketing roles at the world's best technology companies. Filter by type, department, and location.",
-  keywords: [
-    "jobs",
-    "engineering jobs",
-    "design jobs",
-    "remote work",
-    "tech careers",
-    "frontend engineer",
-    "product designer",
-  ],
+  keywords: ["jobs", "engineering jobs", "design jobs", "remote work", "tech careers"],
   openGraph: {
     title: "JobBoard.OS — Find Your Next Role",
     description:
@@ -45,21 +37,17 @@ export const metadata: Metadata = {
     description:
       "Discover top engineering, design, and marketing roles at the world's best technology companies.",
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-screen bg-zinc-950 antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} min-h-screen antialiased`}
+        style={{ backgroundColor: "#F7F8FA", color: "#111827" }}
       >
         {children}
       </body>

@@ -1,0 +1,32 @@
+design: full light mode overhaul with stacked list layout and refined typography
+
+Color system:
+- Background #F7F8FA (cool off-white), cards #FFFFFF, filter bar white/95
+- Single accent blue-600 for CTAs, active states, and focus rings
+- All dark zinc/slate surfaces replaced with gray-50/100/200 equivalents
+
+Layout:
+- Replaced 3-column card grid with full-width stacked list (industry standard)
+- JobCard: horizontal layout — avatar | title + badges | company · location · salary · age
+- Relative timestamps (3d ago, 1w ago) instead of absolute dates for scan speed
+- Card hover: blue-300 border + shadow-blue-50, arrow turns blue-500
+
+Hero:
+- White background, subtle blue radial glow, dot-grid texture with radial fade
+- Pulsing dot badge, single-line headline with blue-to-cyan gradient on accent word
+
+FilterBar:
+- Segmented control style for type filter (white pill on gray-50 track)
+- Department Select fixed: shows correct label (All Departments/Engineering/etc)
+- Inline clear button appears when any filter is active
+- Native input for search (better styling control than Shadcn Input)
+
+Detail Sheet:
+- White bg, gray-50 header band, gray-100 separator — matches light system
+- Custom close button replaces Shadcn X to control placement precisely
+- Apply Now: solid blue-600 button with proper focus ring
+- List dots changed to blue-500
+
+Badges:
+- Light tinted backgrounds (blue-50, amber-50, etc.) with matching text/border
+- Rounded-md instead of rounded-full for editorial feel

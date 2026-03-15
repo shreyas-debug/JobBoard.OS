@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { MapPin, Clock, DollarSign, ChevronRight } from "lucide-react";
+import { MapPin, DollarSign, ArrowRight, Clock } from "lucide-react";
 import { JobBadge } from "@/components/atoms/JobBadge";
 import { LetterAvatar } from "@/components/atoms/LetterAvatar";
 import type { Job } from "@/types/job";
@@ -10,6 +10,17 @@ import type { Job } from "@/types/job";
 interface JobCardProps {
   job: Job;
   onClick: (job: Job) => void;
+}
+
+function timeAgo(dateStr: string): string {
+  const diff = Math.floor(
+    (Date.now() - new Date(dateStr).getTime()) / (1000 * 60 * 60 * 24)
+  );
+  if (diff === 0) return "Today";
+  if (diff === 1) return "Yesterday";
+  if (diff < 7) return `${diff}d ago`;
+  if (diff < 30) return `${Math.floor(diff / 7)}w ago`;
+  return `${Math.floor(diff / 30)}mo ago`;
 }
 
 export function JobCard({ job, onClick }: JobCardProps) {
@@ -23,12 +34,6 @@ export function JobCard({ job, onClick }: JobCardProps) {
     }
   };
 
-  const postedDate = new Date(job.postedAt).toLocaleDateString("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-  });
-
   return (
     <article
       role="button"
@@ -36,67 +41,70 @@ export function JobCard({ job, onClick }: JobCardProps) {
       onClick={() => onClick(job)}
       onKeyDown={handleKeyDown}
       aria-label={`View details for ${job.title} at ${job.companyName}`}
-      className="group relative flex h-full cursor-pointer flex-col gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/50 p-5 backdrop-blur-md transition-all duration-200 hover:-translate-y-1 hover:border-zinc-600 hover:shadow-xl hover:shadow-black/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+      className="group flex cursor-pointer items-center gap-4 rounded-xl border border-gray-200 bg-white px-5 py-4 transition-all duration-150 hover:border-blue-300 hover:shadow-md hover:shadow-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-50"
     >
-      {/* Card header */}
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex items-center gap-3 min-w-0">
-          {showLogo ? (
-            <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-xl border border-zinc-800">
-              <Image
-                src={job.logoUrl!}
-                alt={`${job.companyName} logo`}
-                fill
-                className="object-contain p-1"
-                onError={() => setImgError(true)}
-                sizes="40px"
-              />
-            </div>
-          ) : (
-            <LetterAvatar
-              companyName={job.companyName ?? job.title}
-              size="md"
+      {/* Company logo / avatar */}
+      <div className="shrink-0">
+        {showLogo ? (
+          <div className="relative h-11 w-11 overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+            <Image
+              src={job.logoUrl!}
+              alt={`${job.companyName} logo`}
+              fill
+              className="object-contain p-1.5"
+              onError={() => setImgError(true)}
+              sizes="44px"
             />
-          )}
-          <div className="min-w-0">
-            <p className="text-xs font-medium text-zinc-400 truncate">
-              {job.companyName}
-            </p>
-            <h2
-              className="mt-0.5 text-base font-semibold text-zinc-50 truncate"
-              title={job.title}
-            >
-              {job.title}
-            </h2>
+          </div>
+        ) : (
+          <LetterAvatar companyName={job.companyName ?? job.title} size="md" />
+        )}
+      </div>
+
+      {/* Main content */}
+      <div className="min-w-0 flex-1">
+        {/* Top row: title + badges */}
+        <div className="flex flex-wrap items-center gap-2">
+          <h2
+            className="text-[15px] font-semibold text-gray-900 truncate"
+            title={job.title}
+          >
+            {job.title}
+          </h2>
+          <div className="flex flex-wrap gap-1.5">
+            <JobBadge label={job.type} />
+            <JobBadge label={job.department} />
           </div>
         </div>
-        <ChevronRight
-          className="shrink-0 text-zinc-600 transition-all duration-200 group-hover:translate-x-0.5 group-hover:text-zinc-400 mt-1"
+
+        {/* Bottom row: company · location · salary · date */}
+        <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-[12px] text-gray-500">
+          <span className="font-medium text-gray-600">{job.companyName}</span>
+          <span className="text-gray-300" aria-hidden="true">·</span>
+          <span className="flex items-center gap-1">
+            <MapPin size={11} aria-hidden="true" className="text-gray-400" />
+            {job.location}
+          </span>
+          <span className="text-gray-300" aria-hidden="true">·</span>
+          <span className="flex items-center gap-1">
+            <DollarSign size={11} aria-hidden="true" className="text-gray-400" />
+            {job.salaryRange}
+          </span>
+          <span className="text-gray-300" aria-hidden="true">·</span>
+          <span className="flex items-center gap-1 text-gray-400">
+            <Clock size={11} aria-hidden="true" />
+            {timeAgo(job.postedAt)}
+          </span>
+        </div>
+      </div>
+
+      {/* Arrow */}
+      <div className="shrink-0">
+        <ArrowRight
           size={16}
+          className="text-gray-300 transition-all duration-150 group-hover:translate-x-0.5 group-hover:text-blue-500"
           aria-hidden="true"
         />
-      </div>
-
-      {/* Badges */}
-      <div className="flex flex-wrap gap-2">
-        <JobBadge label={job.type} />
-        <JobBadge label={job.department} />
-      </div>
-
-      {/* Meta info */}
-      <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-zinc-500">
-        <span className="flex items-center gap-1">
-          <MapPin size={12} aria-hidden="true" />
-          {job.location}
-        </span>
-        <span className="flex items-center gap-1">
-          <DollarSign size={12} aria-hidden="true" />
-          {job.salaryRange}
-        </span>
-        <span className="flex items-center gap-1 ml-auto">
-          <Clock size={12} aria-hidden="true" />
-          {postedDate}
-        </span>
       </div>
     </article>
   );

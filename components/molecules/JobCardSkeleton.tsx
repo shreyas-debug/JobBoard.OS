@@ -2,30 +2,21 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function JobCardSkeleton() {
   return (
-    <div className="flex flex-col gap-4 rounded-2xl border border-zinc-800/60 bg-zinc-900/30 p-5">
-      {/* Header */}
-      <div className="flex items-start justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <Skeleton className="h-10 w-10 rounded-xl bg-zinc-800" />
-          <div className="space-y-1.5">
-            <Skeleton className="h-3 w-20 rounded-full bg-zinc-800" />
-            <Skeleton className="h-4 w-36 rounded-full bg-zinc-800" />
-          </div>
+    <div className="flex items-center gap-4 rounded-xl border border-gray-200 bg-white px-5 py-4">
+      <Skeleton className="h-11 w-11 shrink-0 rounded-xl bg-gray-100" />
+      <div className="min-w-0 flex-1 space-y-2">
+        <div className="flex items-center gap-2">
+          <Skeleton className="h-4 w-40 rounded-md bg-gray-100" />
+          <Skeleton className="h-4 w-16 rounded-md bg-gray-100" />
+          <Skeleton className="h-4 w-20 rounded-md bg-gray-100" />
         </div>
-        <Skeleton className="h-4 w-4 rounded bg-zinc-800 mt-1" />
+        <div className="flex items-center gap-3">
+          <Skeleton className="h-3 w-16 rounded-md bg-gray-100" />
+          <Skeleton className="h-3 w-14 rounded-md bg-gray-100" />
+          <Skeleton className="h-3 w-24 rounded-md bg-gray-100" />
+        </div>
       </div>
-
-      {/* Badges */}
-      <div className="flex gap-2">
-        <Skeleton className="h-5 w-16 rounded-full bg-zinc-800" />
-        <Skeleton className="h-5 w-20 rounded-full bg-zinc-800" />
-      </div>
-
-      {/* Meta */}
-      <div className="flex gap-4">
-        <Skeleton className="h-3 w-14 rounded-full bg-zinc-800" />
-        <Skeleton className="h-3 w-24 rounded-full bg-zinc-800" />
-      </div>
+      <Skeleton className="h-4 w-4 rounded bg-gray-100" />
     </div>
   );
 }
