@@ -1,33 +1,17 @@
-feat: dark theme overhaul, apply flow, and premium SaaS polish
+feat: stacked layout, centered dialog, department pills, and polish
 
-Dark theme satisfies assignment brief:
-- Global bg-[#0A0A0A], fixed radial-gradient ambient glow (rgba(120,119,198,0.15))
-- FilterBar: bg-[#0A0A0A]/90 backdrop-blur-xl (subtle blur requirement)
-- Sheet overlay: bg-black/60 backdrop-blur-sm (blurred modal requirement)
-- Cards: glassmorphism bg-white/[0.02] border-white/[0.05], hover brightens
-- Badges: rounded-full bg-white/[0.05] text-white/60
-- Sheet: bg-[#0A0A0A] border-l border-white/10, bento tiles bg-white/[0.03]
-
-Company logos (guaranteed visible):
-- cdn.simpleicons.org/{slug}/ffffff (white SVGs, no auth, no rate limit)
-- Plain img tag with onError -> LetterAvatar fallback
-- Same logo logic in JobCard and JobDetailSheet (no inconsistency)
-- LetterAvatar: dark-mode palette with tinted bgs and matching text
-
-Apply flow (senior-level feature):
-- Sonner toast on successful apply (1s simulated network request)
-- localStorage persists applied job IDs across page refreshes
-- Applied badge on cards and disabled emerald state in sheet footer
-- Applied filter chip in FilterBar that glows emerald when active
-
-FilterBar stability fix:
-- 2-row layout: search always full-width on row 1, chips on row 2
-- No resizing when toggling filters or Applied count badge appears
-- Horizontal scroll on mobile chip row, no layout shift
-
-Additional polish:
-- Hero: compact, text-white/90, immediate job list visibility on load
-- JobCard: arrow slides right on hover (translate-x-1 transition)
-- Sheet: single Apply CTA in sticky footer, 2x2 bento metadata grid
-- Architecture: Atomic design, URL-synced filters, useDebounce 300ms
-- Keyboard nav (Esc/Enter/Space), WAI-ARIA roles throughout
+- Revert sidebar split to vertical stacked layout: pure black hero
+  section on top, job list with ambient glow below
+- Replace Shadcn Sheet with centered Dialog (base-ui primitives) —
+  bg-black/80 backdrop-blur-sm, max-w-2xl, max-h-[88vh] scrollable body
+- Department filter: remove Select dropdown, expose pills with white
+  active state and shadow-[0_0_15px_rgba(255,255,255,0.15)] glow
+- FilterBar redesigned as horizontal centered row with wrapping on mobile
+- Hero badge is now dynamic — reflects live filtered job count
+- JobCard: "New" sky-blue badge on listings posted within 3 days
+- Toast fix: hardcode white bg / zinc-950 text for guaranteed contrast
+- Card elevation: bg-white/[0.04] border-white/[0.08], brighter hover
+- Fail-safe ambient glow: fixed absolute div instead of CSS gradient
+- Sidebar filter labels: text-white/50, more prominent inputs
+- Marketing badge: fuchsia (was emerald — clashed with Applied state)
+- Install Shadcn Dialog component (components/ui/dialog.tsx)

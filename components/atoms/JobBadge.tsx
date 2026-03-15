@@ -5,7 +5,7 @@ const BADGE_STYLES: Record<string, string> = {
   // Departments
   "Engineering": "bg-violet-500/10 text-violet-400 border-violet-500/20",
   "Design":      "bg-pink-500/10 text-pink-400 border-pink-500/20",
-  "Marketing":   "bg-emerald-500/10 text-emerald-400 border-emerald-500/20",
+  "Marketing":   "bg-fuchsia-500/10 text-fuchsia-400 border-fuchsia-500/20",
   // Locations
   "Remote": "bg-cyan-500/10 text-cyan-400 border-cyan-500/20",
   "London": "bg-orange-500/10 text-orange-400 border-orange-500/20",

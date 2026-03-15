@@ -22,7 +22,15 @@ function timeAgo(dateStr: string): string {
   return `${Math.floor(diff / 30)}mo ago`;
 }
 
+function isNew(dateStr: string): boolean {
+  const diff = Math.floor(
+    (Date.now() - new Date(dateStr).getTime()) / (1000 * 60 * 60 * 24)
+  );
+  return diff <= 3;
+}
+
 export function JobCard({ job, onClick, isApplied = false }: JobCardProps) {
+  const fresh = isNew(job.postedAt);
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
@@ -37,7 +45,7 @@ export function JobCard({ job, onClick, isApplied = false }: JobCardProps) {
       onClick={() => onClick(job)}
       onKeyDown={handleKeyDown}
       aria-label={`View details for ${job.title} at ${job.companyName}`}
-      className="group flex cursor-pointer items-center gap-5 rounded-xl border border-white/[0.05] bg-white/[0.02] px-6 py-5 transition-all duration-300 ease-out hover:bg-white/[0.04] hover:border-white/[0.1] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/20"
+      className="group flex cursor-pointer items-center gap-5 rounded-xl border border-white/[0.08] bg-white/[0.04] px-6 py-5 transition-all duration-300 ease-out hover:bg-white/[0.08] hover:border-white/[0.15] hover:-translate-y-[2px] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/20"
     >
       {/* Brand gradient logo */}
       <div className="relative shrink-0">
@@ -69,6 +77,11 @@ export function JobCard({ job, onClick, isApplied = false }: JobCardProps) {
             <JobBadge label={job.type} />
             <JobBadge label={job.department} />
           </div>
+          {fresh && !isApplied && (
+            <span className="inline-flex items-center rounded-full border border-sky-500/30 bg-sky-500/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-sky-400">
+              New
+            </span>
+          )}
           {isApplied && (
             <span className="inline-flex items-center gap-1 rounded-full border border-emerald-500/30 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 px-2 py-0.5 text-[10px] font-semibold text-emerald-400">
               <CheckCircle2 size={9} aria-hidden="true" />

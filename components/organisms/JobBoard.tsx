@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { Hero } from "@/components/organisms/Hero";
 import { FilterBar } from "@/components/molecules/FilterBar";
 import { JobGrid } from "@/components/organisms/JobGrid";
-import { JobDetailSheet } from "@/components/organisms/JobDetailSheet";
+import { JobDetailDialog } from "@/components/organisms/JobDetailDialog";
 import { useJobs } from "@/hooks/useJobs";
 import { useAppliedJobs } from "@/hooks/useAppliedJobs";
 import type { Job } from "@/types/job";
@@ -12,7 +12,7 @@ import type { Job } from "@/types/job";
 export function JobBoard() {
   const [isLoading, setIsLoading] = useState(true);
   const [selectedJob, setSelectedJob] = useState<Job | null>(null);
-  const [sheetOpen, setSheetOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
   const [showAppliedOnly, setShowAppliedOnly] = useState(false);
 
   const {
@@ -35,7 +35,7 @@ export function JobBoard() {
 
   const handleJobClick = (job: Job) => {
     setSelectedJob(job);
-    setSheetOpen(true);
+    setDialogOpen(true);
   };
 
   const handleReset = () => {
@@ -50,42 +50,58 @@ export function JobBoard() {
     : filteredJobs;
 
   return (
-    <div className="relative min-h-screen bg-[#0A0A0A] bg-[radial-gradient(ellipse_80%_50%_at_50%_-20%,rgba(120,119,198,0.3),rgba(255,255,255,0))]">
+    <div className="relative min-h-screen bg-[#0A0A0A]">
 
-      <Hero />
+      {/* ── Top section: pure black, hero + filters ── */}
+      <div className="w-full border-b border-white/10 bg-black px-6 pb-12 pt-20">
+        <div className="mx-auto flex max-w-4xl flex-col items-center gap-10">
+          <Hero openCount={displayedJobs.length} />
+          <FilterBar
+            searchQuery={searchQuery}
+            onSearchChange={setSearchQuery}
+            activeType={activeType}
+            onTypeChange={setActiveType}
+            activeDepartment={activeDepartment}
+            onDepartmentChange={setActiveDepartment}
+            showAppliedOnly={showAppliedOnly}
+            onToggleAppliedOnly={setShowAppliedOnly}
+            appliedCount={appliedIds.size}
+            totalCount={allJobs.length}
+            filteredCount={displayedJobs.length}
+          />
+        </div>
+      </div>
 
-      <FilterBar
-        searchQuery={searchQuery}
-        onSearchChange={setSearchQuery}
-        activeType={activeType}
-        onTypeChange={setActiveType}
-        activeDepartment={activeDepartment}
-        onDepartmentChange={setActiveDepartment}
-        showAppliedOnly={showAppliedOnly}
-        onToggleAppliedOnly={setShowAppliedOnly}
-        appliedCount={appliedIds.size}
-        totalCount={allJobs.length}
-        filteredCount={displayedJobs.length}
-      />
-
-      <main>
-        <JobGrid
-          jobs={displayedJobs}
-          isLoading={isLoading}
-          onJobClick={handleJobClick}
-          onReset={handleReset}
-          isApplied={isApplied}
+      {/* ── Bottom section: job list + ambient glow ── */}
+      <div className="relative w-full pb-24">
+        {/* Fail-safe ambient glow */}
+        <div
+          className="pointer-events-none absolute left-1/2 top-[-100px] z-0 h-[600px] w-[800px] -translate-x-1/2 rounded-[100%] bg-indigo-500/15 blur-[120px]"
+          aria-hidden="true"
         />
-      </main>
+        <div className="relative z-10">
+          <JobGrid
+            jobs={displayedJobs}
+            isLoading={isLoading}
+            onJobClick={handleJobClick}
+            onReset={handleReset}
+            isApplied={isApplied}
+          />
+        </div>
+      </div>
 
-      <footer className="border-t border-white/5 py-6 text-center text-[11px] text-white/25">
-        JobBoard.OS &mdash; Built with Next.js, Tailwind CSS &amp; Shadcn/UI
-      </footer>
+      {/* Footer */}
+      <div className="border-t border-white/5 py-6 text-center">
+        <p className="text-[11px] text-white/20">
+          JobBoard.OS &mdash; Next.js · Tailwind CSS · Shadcn/UI
+        </p>
+      </div>
 
-      <JobDetailSheet
+      {/* ── Centered Dialog (replaces Sheet) ── */}
+      <JobDetailDialog
         job={selectedJob}
-        open={sheetOpen}
-        onClose={() => setSheetOpen(false)}
+        open={dialogOpen}
+        onClose={() => setDialogOpen(false)}
         isApplied={selectedJob ? isApplied(selectedJob.id) : false}
         onApply={applyToJob}
       />

@@ -18,7 +18,8 @@ const SKELETON_COUNT = 8;
 
 export function JobGrid({ jobs, isLoading, onJobClick, onReset, isApplied }: JobGridProps) {
   return (
-    <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6">
+    <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+
       {isLoading ? (
         <div className="flex flex-col gap-2">
           {Array.from({ length: SKELETON_COUNT }).map((_, i) => (
