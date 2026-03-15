@@ -40,7 +40,7 @@ export function JobBoard() {
   };
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <Hero />
       <FilterBar
         searchQuery={searchQuery}
@@ -52,17 +52,24 @@ export function JobBoard() {
         totalCount={totalCount}
         filteredCount={jobs.length}
       />
-      <JobGrid
-        jobs={jobs}
-        isLoading={isLoading}
-        onJobClick={handleJobClick}
-        onReset={clearFilters}
-      />
+      <main className="flex-1">
+        <JobGrid
+          jobs={jobs}
+          isLoading={isLoading}
+          onJobClick={handleJobClick}
+          onReset={clearFilters}
+        />
+      </main>
+      <footer className="border-t border-zinc-800/60 py-6 text-center text-xs text-zinc-600">
+        <p>
+          JobBoard.OS &mdash; Built with Next.js &amp; Tailwind CSS
+        </p>
+      </footer>
       <JobDetailSheet
         job={selectedJob}
         open={isSheetOpen}
         onClose={handleSheetClose}
       />
-    </>
+    </div>
   );
 }

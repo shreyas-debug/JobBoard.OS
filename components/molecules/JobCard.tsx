@@ -1,5 +1,7 @@
 "use client";
 
+import { useState } from "react";
+import Image from "next/image";
 import { MapPin, Clock, DollarSign, ChevronRight } from "lucide-react";
 import { JobBadge } from "@/components/atoms/JobBadge";
 import { LetterAvatar } from "@/components/atoms/LetterAvatar";
@@ -11,6 +13,9 @@ interface JobCardProps {
 }
 
 export function JobCard({ job, onClick }: JobCardProps) {
+  const [imgError, setImgError] = useState(false);
+  const showLogo = job.logoUrl && !imgError;
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
@@ -31,15 +36,28 @@ export function JobCard({ job, onClick }: JobCardProps) {
       onClick={() => onClick(job)}
       onKeyDown={handleKeyDown}
       aria-label={`View details for ${job.title} at ${job.companyName}`}
-      className="group relative flex cursor-pointer flex-col gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/50 p-5 backdrop-blur-md transition-all duration-200 hover:-translate-y-1 hover:border-zinc-600 hover:shadow-xl hover:shadow-black/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
+      className="group relative flex h-full cursor-pointer flex-col gap-4 rounded-2xl border border-zinc-800 bg-zinc-900/50 p-5 backdrop-blur-md transition-all duration-200 hover:-translate-y-1 hover:border-zinc-600 hover:shadow-xl hover:shadow-black/40 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500 focus-visible:ring-offset-2 focus-visible:ring-offset-zinc-950"
     >
       {/* Card header */}
       <div className="flex items-start justify-between gap-3">
         <div className="flex items-center gap-3 min-w-0">
-          <LetterAvatar
-            companyName={job.companyName ?? job.title}
-            size="md"
-          />
+          {showLogo ? (
+            <div className="relative h-10 w-10 shrink-0 overflow-hidden rounded-xl border border-zinc-800">
+              <Image
+                src={job.logoUrl!}
+                alt={`${job.companyName} logo`}
+                fill
+                className="object-contain p-1"
+                onError={() => setImgError(true)}
+                sizes="40px"
+              />
+            </div>
+          ) : (
+            <LetterAvatar
+              companyName={job.companyName ?? job.title}
+              size="md"
+            />
+          )}
           <div className="min-w-0">
             <p className="text-xs font-medium text-zinc-400 truncate">
               {job.companyName}
@@ -66,7 +84,7 @@ export function JobCard({ job, onClick }: JobCardProps) {
       </div>
 
       {/* Meta info */}
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-zinc-500">
+      <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-zinc-500">
         <span className="flex items-center gap-1">
           <MapPin size={12} aria-hidden="true" />
           {job.location}

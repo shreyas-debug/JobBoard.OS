@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
@@ -13,15 +13,41 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
+export const viewport: Viewport = {
+  themeColor: "#09090b",
+  width: "device-width",
+  initialScale: 1,
+};
+
 export const metadata: Metadata = {
   title: "JobBoard.OS — Find Your Next Role",
   description:
     "Discover top engineering, design, and marketing roles at the world's best technology companies. Filter by type, department, and location.",
+  keywords: [
+    "jobs",
+    "engineering jobs",
+    "design jobs",
+    "remote work",
+    "tech careers",
+    "frontend engineer",
+    "product designer",
+  ],
   openGraph: {
     title: "JobBoard.OS — Find Your Next Role",
     description:
       "Discover top engineering, design, and marketing roles at the world's best technology companies.",
     type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "JobBoard.OS — Find Your Next Role",
+    description:
+      "Discover top engineering, design, and marketing roles at the world's best technology companies.",
+  },
+  robots: {
+    index: true,
+    follow: true,
   },
 };
 
