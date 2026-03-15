@@ -2,7 +2,7 @@
 
 A premium, dark-themed job board built with Next.js 16, Tailwind CSS v4, and Shadcn/UI. Features glassmorphism cards, brand-gradient company logos, real-time debounced search, URL-synced filters, a blurred side-drawer job detail view, staggered animations, skeleton loaders, and a full apply flow with localStorage persistence and toast notifications.
 
-**Live demo:** _Deploy URL here_  
+**Live demo:** https://job-board-os.vercel.app  
 **GitHub:** https://github.com/shreyas-debug/JobBoard.OS
 
 ---
@@ -11,9 +11,9 @@ A premium, dark-themed job board built with Next.js 16, Tailwind CSS v4, and Sha
 
 ### Dark Theme & Glassmorphism
 
-The application uses a permanent deep off-black (`#0A0A0A`) base — not pure black, which looks harsh, and not `zinc-950`, which is too blue-tinted. Against this base, all interactive surfaces (cards, filter bar, side drawer) use `bg-white/[0.02]–bg-white/[0.08]` with `border-white/[0.05]–border-white/[0.1]` — a glassmorphism technique that creates physical depth without heavy shadows.
+The application uses a permanent deep off-black (`#0A0A0A`) base - not pure black, which looks harsh, and not `zinc-950`, which is too blue-tinted. Against this base, all interactive surfaces (cards, filter bar, side drawer) use `bg-white/[0.02]–bg-white/[0.08]` with `border-white/[0.05]–border-white/[0.1]` - a glassmorphism technique that creates physical depth without heavy shadows.
 
-The sticky filter bar uses `backdrop-blur-xl` so it reads as a frosted-glass panel floating above the job list. The side-drawer overlay uses `bg-black/60 backdrop-blur-sm` — blurring the content behind the sheet satisfies the assignment's "subtle blurs" requirement while keeping the drawer panel itself crisp and readable.
+The sticky filter bar uses `backdrop-blur-xl` so it reads as a frosted-glass panel floating above the job list. The side-drawer overlay uses `bg-black/60 backdrop-blur-sm` - blurring the content behind the sheet satisfies the assignment's "subtle blurs" requirement while keeping the drawer panel itself crisp and readable.
 
 ### The Background Gradient
 
@@ -21,7 +21,7 @@ A single `radial-gradient(ellipse 80% 50% at 50% -20%, rgba(120,119,198,0.3), rg
 
 ### Brand-Gradient Company Logos
 
-Company logos are white SVGs sourced from the Simple Icons CDN (`cdn.simpleicons.org/{slug}/ffffff`). Each logo sits on a brand-specific `bg-gradient-to-br` tile — Linear gets `indigo → violet`, Stripe gets `indigo → cyan`, Loom gets `orange → red`, Figma gets `orange → violet`, and so on. A `shadow-[0_0_16px_rgba(255,255,255,0.08)]` halo gives each tile a soft ambient glow. Unknown companies receive a deterministic gradient from an 8-colour fallback palette. If the CDN fetch fails, a `LetterAvatar` with a matching tinted dark palette is rendered instead.
+Company logos are white SVGs sourced from the Simple Icons CDN (`cdn.simpleicons.org/{slug}/ffffff`). Each logo sits on a brand-specific `bg-gradient-to-br` tile - Linear gets `indigo → violet`, Stripe gets `indigo → cyan`, Loom gets `orange → red`, Figma gets `orange → violet`, and so on. A `shadow-[0_0_16px_rgba(255,255,255,0.08)]` halo gives each tile a soft ambient glow. Unknown companies receive a deterministic gradient from an 8-colour fallback palette. If the CDN fetch fails, a `LetterAvatar` with a matching tinted dark palette is rendered instead.
 
 ### Colourful Tinted Badges
 
@@ -38,15 +38,15 @@ Every job attribute badge carries a semantic colour:
 | London | Orange |
 | NYC | Rose |
 
-This lets users scan the list visually — a glance at the badge colours is enough to understand the role at a distance without reading every word.
+This lets users scan the list visually - a glance at the badge colours is enough to understand the role at a distance without reading every word.
 
 ### Typography
 
 Geist Sans (400–700) is used throughout. It is the typeface designed by Vercel for developer-facing interfaces: geometric, legible at small sizes, with excellent tabular numerals for salary figures. `tracking-tight` on all headings sharpens the premium feel.
 
-### Side Drawer vs Modal
+### Centered Modal for Job Details
 
-The job detail view uses a Shadcn `Sheet` sliding in from the right rather than a full-page navigation or a centred modal. This preserves spatial context — the job grid remains partially visible behind the blurred overlay — which reduces disorientation. The drawer uses a two-zone layout: a fixed header (logo, title, bento metadata, badges) and a scrollable body (description), with a sticky footer CTA that is always reachable regardless of scroll position. Shadcn's built-in close button handles Esc-key dismissal and focus trapping.
+The job detail view uses a centered Dialog built directly on `@base-ui/react/dialog` primitives rather than a side sheet. The backdrop uses `bg-black/80 backdrop-blur-sm` - a heavy dim that keeps focus entirely on the modal content. The popup is `max-w-2xl` with `max-h-[88vh]` and a three-zone flex layout: a fixed header (logo, title, bento metadata, badges), a `flex-1 overflow-y-auto` body for the full role description, and a sticky footer with the single Apply CTA that is always reachable regardless of scroll depth. An `X` button at `top-4 right-4` handles dismissal; the Esc key and backdrop click close the dialog automatically via base-ui's built-in behaviour.
 
 ---
 
@@ -62,16 +62,16 @@ components/
 │   └── LetterAvatar    Dark-palette letter avatar for failed/missing logos
 │
 ├── molecules/        Compositions of atoms with localised state
-│   ├── JobCard         Glassmorphism card — logo, badges, metadata, hover arrow
+│   ├── JobCard         Glassmorphism card - logo, badges, metadata, hover arrow
 │   ├── JobCardSkeleton Shadcn Skeleton mirroring the card layout
 │   ├── FilterBar       2-row sticky bar: search (row 1) + filter chips (row 2)
 │   └── EmptyState      "No roles found" with reset affordance
 │
 └── organisms/        Page-level sections that own or consume shared state
     ├── Hero            Compact dark heading with status badge
-    ├── JobGrid         AnimatePresence list — skeletons → cards → empty state
+    ├── JobGrid         AnimatePresence list - skeletons → cards → empty state
     ├── JobDetailSheet  Shadcn Sheet with bento metadata + sticky Apply CTA
-    └── JobBoard        Client orchestrator — wires all hooks to all UI
+    └── JobBoard        Client orchestrator - wires all hooks to all UI
 ```
 
 ### Data & State Flow
@@ -90,11 +90,11 @@ app/page.tsx  (Server Component)
               └── <JobDetailSheet />  ← opened on card click
 ```
 
-**`useJobs`** — single source of truth for search and filter state. Reads initial values from URL search params on mount (`useSearchParams`), filters the `jobs.json` array in memory, and reflects every change back to the URL via `router.replace` (shallow, no page reload). This makes any filtered view shareable by copying the address bar.
+**`useJobs`** - single source of truth for search and filter state. Reads initial values from URL search params on mount (`useSearchParams`), filters the `jobs.json` array in memory, and reflects every change back to the URL via `router.replace` (shallow, no page reload). This makes any filtered view shareable by copying the address bar.
 
-**`useDebounce`** — generic hook (`useDebounce<T>(value, delay)`) that delays propagating a value until 300 ms after the last change. The raw `searchQuery` is bound to the input immediately for a responsive feel; the `debouncedQuery` drives the actual filter logic.
+**`useDebounce`** - generic hook (`useDebounce<T>(value, delay)`) that delays propagating a value until 300 ms after the last change. The raw `searchQuery` is bound to the input immediately for a responsive feel; the `debouncedQuery` drives the actual filter logic.
 
-**`useAppliedJobs`** — reads and writes a `Set<string>` of applied job IDs to `localStorage` under the key `"jobboard_applied_ids"`. Survives page refreshes. Exposes `applyToJob(id)` and `isApplied(id)`.
+**`useAppliedJobs`** - reads and writes a `Set<string>` of applied job IDs to `localStorage` under the key `"jobboard_applied_ids"`. Survives page refreshes. Exposes `applyToJob(id)` and `isApplied(id)`.
 
 ---
 
@@ -146,8 +146,8 @@ npm run lint    # ESLint
 JobBoard.OS/
 ├── app/
 │   ├── globals.css         Tailwind v4 directives and base reset
-│   ├── layout.tsx          Root layout — Geist font, metadata, Toaster, ThemeProvider
-│   └── page.tsx            Entry point — Suspense boundary around <JobBoard>
+│   ├── layout.tsx          Root layout - Geist font, metadata, Toaster, ThemeProvider
+│   └── page.tsx            Entry point - Suspense boundary around <JobBoard>
 ├── components/
 │   ├── atoms/
 │   │   ├── CompanyLogo.tsx   Brand gradient logo tile with fallback
@@ -179,17 +179,17 @@ JobBoard.OS/
 
 ## Features
 
-- **Job list from JSON** — 12 realistic dummy jobs with title, department, location, type, salary range, and full description
-- **Filter by Type** — "All / Full-time / Contract" pill group; active pill uses tinted glass highlight
-- **Filter by Department** — glassmorphism dropdown with `backdrop-blur-2xl` and `shadow-[0_10px_40px_rgba(0,0,0,0.8)]`
-- **Job Details Sheet** — Shadcn Sheet sliding in from the right; blurred backdrop overlay; bento 2×2 metadata grid (Location, Salary, Type, Department); sticky Apply CTA footer
-- **Responsive** — single-column mobile; filter chip row scrolls horizontally on small screens; sheet is full-width on mobile
-- **Real-time debounced search** — 300 ms delay, URL-synced (`?q=`)
-- **URL-synced filters** — `?type=Full-time&dept=Engineering` is restorable and shareable
-- **Skeleton loaders** — Shadcn Skeleton cards rendered during the simulated 700 ms load
-- **Staggered entry animations** — Framer Motion `AnimatePresence` with 40 ms per-card stagger
-- **Apply flow** — 1 s simulated network request → Sonner toast → `localStorage` persistence → card badge + disabled sheet state across page refreshes
-- **"Show Applied" filter** — chip in the filter bar shows count badge; emerald glow when active
-- **Empty state** — illustrated with a reset button that clears all filter state and URL params
-- **Keyboard navigation** — all cards `tabIndex={0}` with Enter/Space handlers; Esc closes the drawer; `aria-pressed` on pills; `role="switch"` on the Applied toggle
-- **Letter Avatar fallback** — dark-palette tinted avatars when logo CDN fails; deterministic colour by company name
+- **Job list from JSON** - 12 realistic dummy jobs with title, department, location, type, salary range, and full description
+- **Filter by Type** - "All / Full-time / Contract" pill group; active pill uses tinted glass highlight
+- **Filter by Department** - exposed as a horizontal pill row; active pill uses `bg-white text-black` with a soft white glow for instant visual feedback
+- **Job Details Dialog** - centered modal (`max-w-2xl`); `bg-black/80 backdrop-blur-sm` backdrop; bento 2x2 metadata grid (Location, Salary, Type, Department); sticky Apply CTA footer
+- **Responsive** - single-column mobile; filter pill row wraps on small screens; dialog is full-width on mobile
+- **Real-time debounced search** - 300 ms delay, URL-synced (`?q=`)
+- **URL-synced filters** - `?type=Full-time&dept=Engineering` is restorable and shareable
+- **Skeleton loaders** - Shadcn Skeleton cards rendered during the simulated 700 ms load
+- **Staggered entry animations** - Framer Motion `AnimatePresence` with 40 ms per-card stagger
+- **Apply flow** - 1 s simulated network request → Sonner toast → `localStorage` persistence → card badge + disabled sheet state across page refreshes
+- **"Show Applied" filter** - chip in the filter bar shows count badge; emerald glow when active
+- **Empty state** - illustrated with a reset button that clears all filter state and URL params
+- **Keyboard navigation** - all cards `tabIndex={0}` with Enter/Space handlers; Esc closes the drawer; `aria-pressed` on pills; `role="switch"` on the Applied toggle
+- **Letter Avatar fallback** - dark-palette tinted avatars when logo CDN fails; deterministic colour by company name
