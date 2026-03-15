@@ -179,14 +179,11 @@ JobBoard.OS/
 
 ## Features
 
-### Core Requirements
 - **Job list from JSON** — 12 realistic dummy jobs with title, department, location, type, salary range, and full description
 - **Filter by Type** — "All / Full-time / Contract" pill group; active pill uses tinted glass highlight
 - **Filter by Department** — glassmorphism dropdown with `backdrop-blur-2xl` and `shadow-[0_10px_40px_rgba(0,0,0,0.8)]`
 - **Job Details Sheet** — Shadcn Sheet sliding in from the right; blurred backdrop overlay; bento 2×2 metadata grid (Location, Salary, Type, Department); sticky Apply CTA footer
 - **Responsive** — single-column mobile; filter chip row scrolls horizontally on small screens; sheet is full-width on mobile
-
-### Senior-Level Additions
 - **Real-time debounced search** — 300 ms delay, URL-synced (`?q=`)
 - **URL-synced filters** — `?type=Full-time&dept=Engineering` is restorable and shareable
 - **Skeleton loaders** — Shadcn Skeleton cards rendered during the simulated 700 ms load
