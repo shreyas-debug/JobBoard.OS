@@ -49,32 +49,27 @@
   --card-foreground: #111827;
   --popover: #FFFFFF;
   --popover-foreground: #111827;
-  --primary: #2563EB;
+  --primary: #111827;
   --primary-foreground: #FFFFFF;
-  --secondary: #F1F5F9;
+  --secondary: #F3F4F6;
   --secondary-foreground: #374151;
-  --muted: #F1F5F9;
+  --muted: #F3F4F6;
   --muted-foreground: #6B7280;
-  --accent: #EFF6FF;
-  --accent-foreground: #1D4ED8;
+  --accent: #F3F4F6;
+  --accent-foreground: #111827;
   --destructive: #EF4444;
   --border: #E5E7EB;
   --input: #E5E7EB;
-  --ring: #2563EB;
+  --ring: #111827;
   --radius: 0.5rem;
   --sidebar: #FFFFFF;
   --sidebar-foreground: #111827;
-  --sidebar-primary: #2563EB;
+  --sidebar-primary: #111827;
   --sidebar-primary-foreground: #FFFFFF;
-  --sidebar-accent: #EFF6FF;
-  --sidebar-accent-foreground: #1D4ED8;
+  --sidebar-accent: #F3F4F6;
+  --sidebar-accent-foreground: #111827;
   --sidebar-border: #E5E7EB;
-  --sidebar-ring: #2563EB;
-}
-
-@keyframes spotlight {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.08); }
+  --sidebar-ring: #111827;
 }
 
 @layer base {

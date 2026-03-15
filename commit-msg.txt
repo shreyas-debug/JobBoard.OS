@@ -1,32 +1,26 @@
-design: full light mode overhaul with stacked list layout and refined typography
+ux: flat technical aesthetic, Clearbit logos, and prominent Apply CTA
 
-Color system:
-- Background #F7F8FA (cool off-white), cards #FFFFFF, filter bar white/95
-- Single accent blue-600 for CTAs, active states, and focus rings
-- All dark zinc/slate surfaces replaced with gray-50/100/200 equivalents
+Logos:
+- Added Clearbit Logo API URLs to all 12 companies in jobs.json
+- next.config.ts: added logo.clearbit.com to allowed image domains
+- JobCard renders real company logos via next/image with LetterAvatar fallback
+- LetterAvatar: removed gradient fills, replaced with flat tinted palette
+  (solid bg with matching text/border, no gradient-to-* classes)
 
-Layout:
-- Replaced 3-column card grid with full-width stacked list (industry standard)
-- JobCard: horizontal layout — avatar | title + badges | company · location · salary · age
-- Relative timestamps (3d ago, 1w ago) instead of absolute dates for scan speed
-- Card hover: blue-300 border + shadow-blue-50, arrow turns blue-500
+Flat aesthetic (zero gradients, zero blur):
+- Removed all bg-gradient-to-*, from-*, to-* across every component
+- Removed all backdrop-blur-*, blur-* effects
+- Hero: plain white bg, solid border-b, black heading with tracking-tight
+  Status badge: flat gray-50 with solid emerald dot, no animations
+- Cards: white bg inside a shared rounded-xl border container, divider lines
+  between rows (list-style like Linear Jobs / Greenhouse)
+  Hover: bg-gray-50 tint only — no shadow, no border shift
+- FilterBar: bg-white, solid border-b, no backdrop-blur
+  Active type pill: bg-gray-900 text-white (solid black)
+- Badges: flat tinted backgrounds with matching border (no opacity tricks)
 
-Hero:
-- White background, subtle blue radial glow, dot-grid texture with radial fade
-- Pulsing dot badge, single-line headline with blue-to-cyan gradient on accent word
-
-FilterBar:
-- Segmented control style for type filter (white pill on gray-50 track)
-- Department Select fixed: shows correct label (All Departments/Engineering/etc)
-- Inline clear button appears when any filter is active
-- Native input for search (better styling control than Shadcn Input)
-
-Detail Sheet:
-- White bg, gray-50 header band, gray-100 separator — matches light system
-- Custom close button replaces Shadcn X to control placement precisely
-- Apply Now: solid blue-600 button with proper focus ring
-- List dots changed to blue-500
-
-Badges:
-- Light tinted backgrounds (blue-50, amber-50, etc.) with matching text/border
-- Rounded-md instead of rounded-full for editorial feel
+Apply Now CTA:
+- Prominent solid bg-gray-900 button in the sheet header (always visible)
+- Sticky footer bar with "Apply for this Position" + "Back to listings"
+- Both CTAs use the same black solid style, no gradients
+- Sheet body scrolls independently between fixed header and sticky footer

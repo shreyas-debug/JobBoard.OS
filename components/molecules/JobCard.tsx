@@ -41,12 +41,12 @@ export function JobCard({ job, onClick }: JobCardProps) {
       onClick={() => onClick(job)}
       onKeyDown={handleKeyDown}
       aria-label={`View details for ${job.title} at ${job.companyName}`}
-      className="group flex cursor-pointer items-center gap-4 rounded-xl border border-gray-200 bg-white px-5 py-4 transition-all duration-150 hover:border-blue-300 hover:shadow-md hover:shadow-blue-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2 focus-visible:ring-offset-gray-50"
+      className="group flex cursor-pointer items-center gap-4 border-b border-gray-200 bg-white px-5 py-4 transition-colors duration-100 last:border-b-0 hover:bg-gray-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-gray-900"
     >
-      {/* Company logo / avatar */}
+      {/* Logo */}
       <div className="shrink-0">
         {showLogo ? (
-          <div className="relative h-11 w-11 overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+          <div className="relative h-11 w-11 overflow-hidden rounded-xl border border-gray-200 bg-white">
             <Image
               src={job.logoUrl!}
               alt={`${job.companyName} logo`}
@@ -61,12 +61,11 @@ export function JobCard({ job, onClick }: JobCardProps) {
         )}
       </div>
 
-      {/* Main content */}
+      {/* Content */}
       <div className="min-w-0 flex-1">
-        {/* Top row: title + badges */}
         <div className="flex flex-wrap items-center gap-2">
           <h2
-            className="text-[15px] font-semibold text-gray-900 truncate"
+            className="text-[14px] font-semibold text-gray-900 truncate"
             title={job.title}
           >
             {job.title}
@@ -77,35 +76,32 @@ export function JobCard({ job, onClick }: JobCardProps) {
           </div>
         </div>
 
-        {/* Bottom row: company · location · salary · date */}
-        <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-[12px] text-gray-500">
+        <div className="mt-1 flex flex-wrap items-center gap-x-2.5 gap-y-0.5 text-[12px] text-gray-500">
           <span className="font-medium text-gray-600">{job.companyName}</span>
-          <span className="text-gray-300" aria-hidden="true">·</span>
+          <span className="text-gray-300" aria-hidden="true">/</span>
           <span className="flex items-center gap-1">
-            <MapPin size={11} aria-hidden="true" className="text-gray-400" />
+            <MapPin size={10} aria-hidden="true" />
             {job.location}
           </span>
-          <span className="text-gray-300" aria-hidden="true">·</span>
+          <span className="text-gray-300" aria-hidden="true">/</span>
           <span className="flex items-center gap-1">
-            <DollarSign size={11} aria-hidden="true" className="text-gray-400" />
+            <DollarSign size={10} aria-hidden="true" />
             {job.salaryRange}
           </span>
-          <span className="text-gray-300" aria-hidden="true">·</span>
+          <span className="text-gray-300" aria-hidden="true">/</span>
           <span className="flex items-center gap-1 text-gray-400">
-            <Clock size={11} aria-hidden="true" />
+            <Clock size={10} aria-hidden="true" />
             {timeAgo(job.postedAt)}
           </span>
         </div>
       </div>
 
       {/* Arrow */}
-      <div className="shrink-0">
-        <ArrowRight
-          size={16}
-          className="text-gray-300 transition-all duration-150 group-hover:translate-x-0.5 group-hover:text-blue-500"
-          aria-hidden="true"
-        />
-      </div>
+      <ArrowRight
+        size={15}
+        className="shrink-0 text-gray-300 transition-colors duration-100 group-hover:text-gray-600"
+        aria-hidden="true"
+      />
     </article>
   );
 }

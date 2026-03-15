@@ -26,7 +26,7 @@ export function JobBoard() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => setIsLoading(false), 700);
+    const timer = setTimeout(() => setIsLoading(false), 600);
     return () => clearTimeout(timer);
   }, []);
 
@@ -36,7 +36,7 @@ export function JobBoard() {
   };
 
   return (
-    <div className="flex min-h-screen flex-col" style={{ backgroundColor: "#F7F8FA" }}>
+    <div className="flex min-h-screen flex-col bg-[#F7F8FA]">
       <Hero />
       <FilterBar
         searchQuery={searchQuery}
@@ -56,7 +56,7 @@ export function JobBoard() {
           onReset={clearFilters}
         />
       </main>
-      <footer className="border-t border-gray-200 bg-white py-5 text-center text-[11px] font-medium text-gray-400 tracking-wide">
+      <footer className="border-t border-gray-200 bg-white py-4 text-center text-[11px] font-medium text-gray-400 tracking-widest uppercase">
         JobBoard.OS
       </footer>
       <JobDetailSheet

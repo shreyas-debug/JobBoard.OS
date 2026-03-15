@@ -19,7 +19,7 @@ export function JobGrid({ jobs, isLoading, onJobClick, onReset }: JobGridProps) 
   return (
     <div className="mx-auto max-w-4xl px-4 py-6 sm:px-6">
       {isLoading ? (
-        <div className="flex flex-col gap-2.5">
+        <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
           {Array.from({ length: SKELETON_COUNT }).map((_, i) => (
             <JobCardSkeleton key={i} />
           ))}
@@ -27,15 +27,15 @@ export function JobGrid({ jobs, isLoading, onJobClick, onReset }: JobGridProps) 
       ) : jobs.length === 0 ? (
         <EmptyState onReset={onReset} />
       ) : (
-        <div className="flex flex-col gap-2.5">
+        <div className="overflow-hidden rounded-xl border border-gray-200 bg-white">
           <AnimatePresence mode="popLayout">
             {jobs.map((job, i) => (
               <motion.div
                 key={job.id}
-                initial={{ opacity: 0, y: 12 }}
+                initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ delay: i * 0.05, duration: 0.25, type: "tween" }}
+                exit={{ opacity: 0 }}
+                transition={{ delay: i * 0.04, duration: 0.2, type: "tween" }}
                 layout
               >
                 <JobCard job={job} onClick={onJobClick} />
