@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
-import { ThemeProvider } from "next-themes";
 import { Toaster } from "@/components/ui/sonner";
 import "./globals.css";
 
@@ -40,15 +39,13 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" style={{ colorScheme: "dark" }}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-screen antialiased`}
         style={{ backgroundColor: "#0A0A0A", color: "#ffffff" }}
       >
-        <ThemeProvider attribute="class" forcedTheme="dark" disableTransitionOnChange>
-          {children}
-          <Toaster position="bottom-right" theme="dark" />
-        </ThemeProvider>
+        {children}
+        <Toaster position="bottom-right" theme="dark" />
       </body>
     </html>
   );

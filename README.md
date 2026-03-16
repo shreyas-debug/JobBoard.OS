@@ -1,6 +1,6 @@
 # JobBoard.OS
 
-A premium, dark-themed job board built with Next.js 16, Tailwind CSS v4, and Shadcn/UI. Features brand-gradient company logos, real-time debounced search, URL-synced filters, a centered modal with scrollable job detail, staggered hero animations, skeleton loaders, department-coloured card hover accents, a full apply/withdraw flow with localStorage persistence, and toast notifications.
+A premium, dark-themed job board built with Next.js 16, Tailwind CSS v4, and Shadcn/UI. Features brand-gradient company logos, real-time debounced search, URL-synced filters with sort-by-date, a centered modal with scrollable job detail, staggered hero animations, skeleton loaders, department-coloured card hover accents, a full apply/withdraw flow with localStorage persistence, and toast notifications.
 
 **Live demo:** https://job-board-os.vercel.app  
 **GitHub:** https://github.com/shreyas-debug/JobBoard.OS
@@ -86,11 +86,11 @@ app/page.tsx  (Server Component)
               ├── [showAppliedOnly]   ← local boolean state
               ├── <Hero />
               ├── <FilterBar />       ← controlled inputs + Applied toggle chip
-              ├── <JobGrid />         ← filtered + applied-only list
+              ├── <JobGrid />         ← filtered, sorted + applied-only list
               └── <JobDetailDialog /> ← opened on card click
 ```
 
-**`useJobs`** — reads initial values from URL search params on mount, filters the `jobs.json` array in memory, and reflects every change back to the URL via `router.replace` (shallow). Makes any filtered view shareable by copying the address bar.
+**`useJobs`** — reads initial values from URL search params on mount, filters the `jobs.json` array in memory, sorts by `postedAt` date (newest or oldest), and reflects every change back to the URL via `router.replace` (shallow). Makes any filtered and sorted view shareable by copying the address bar.
 
 **`useDebounce`** — generic hook that delays propagating a value 300 ms after the last change.
 
@@ -166,7 +166,7 @@ JobBoard.OS/
 ├── data/
 │   └── jobs.json           15 realistic jobs across 4 depts, 3 types, 5 locations
 ├── hooks/
-│   ├── useJobs.ts          Filter logic + URL state sync + debounce integration
+│   ├── useJobs.ts          Filter + sort logic + URL state sync + debounce integration
 │   ├── useAppliedJobs.ts   localStorage apply/withdraw persistence
 │   └── useDebounce.ts      Generic 300 ms debounce
 ├── types/
@@ -184,8 +184,9 @@ JobBoard.OS/
 - **Job Details Modal** — centered `max-w-2xl` dialog; bento 2×2 metadata grid; fully scrollable description with custom thin scrollbar; Share button that copies a shareable URL
 - **Apply & Withdraw flow** — gradient Apply button → 1s loading → Applied state; Withdraw button → 0.6s loading → removed from localStorage; both confirmed by Sonner toasts
 - **Responsive** — single-column mobile; filter rows scroll horizontally; modal is full-width on mobile
+- **Sort by date** — "Newest first / Oldest first" glassmorphism dropdown above the card list; sort order is URL-synced (`?sort=oldest`) and persists on share
 - **Real-time debounced search** — 300 ms delay, URL-synced (`?q=`)
-- **URL-synced filters** — `?type=Full-time&dept=Engineering` is restorable and shareable
+- **URL-synced filters** — `?type=Full-time&dept=Engineering&sort=oldest` is fully restorable and shareable
 - **Skeleton loaders** — Shadcn Skeleton cards during simulated 700 ms load
 - **Hero stagger animations** — badge, headline, subtext fade-slide-up with 0.1s staggered delays
 - **Department-coloured card hovers** — left accent bar + radial glow keyed by department

@@ -13,8 +13,6 @@ interface FilterBarProps {
   showAppliedOnly: boolean;
   onToggleAppliedOnly: (val: boolean) => void;
   appliedCount: number;
-  totalCount: number;
-  filteredCount: number;
 }
 
 const JOB_TYPES = [
@@ -42,18 +40,10 @@ export function FilterBar({
   showAppliedOnly,
   onToggleAppliedOnly,
   appliedCount,
-  totalCount,
-  filteredCount,
 }: FilterBarProps) {
-  const hasActiveFilters =
-    !!searchQuery ||
-    activeType !== "all" ||
-    activeDepartment !== "all" ||
-    showAppliedOnly;
-
   return (
     <div
-      className="flex w-full max-w-2xl flex-col gap-3"
+      className="flex w-full max-w-2xl flex-col gap-2"
       style={{ animation: "fadeSlideUp 0.6s ease 0.3s both" }}
     >
 
@@ -169,31 +159,6 @@ export function FilterBar({
         })}
       </div>
 
-      {/* ── Row 4: Count + clear ── */}
-      <div className="flex items-center justify-center gap-3 text-[12px] text-white/30">
-        <span className="tabular-nums">
-          {filteredCount === totalCount
-            ? `${totalCount} roles`
-            : `${filteredCount} of ${totalCount} roles`}
-        </span>
-        {hasActiveFilters && (
-          <>
-            <span aria-hidden="true">·</span>
-            <button
-              type="button"
-              onClick={() => {
-                onSearchChange("");
-                onTypeChange("all");
-                onDepartmentChange("all");
-                onToggleAppliedOnly(false);
-              }}
-              className="font-semibold underline underline-offset-2 hover:text-white/60 transition-colors"
-            >
-              Clear filters
-            </button>
-          </>
-        )}
-      </div>
     </div>
   );
 }

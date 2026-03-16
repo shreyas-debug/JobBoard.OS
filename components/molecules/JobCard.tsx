@@ -54,7 +54,7 @@ export function JobCard({ job, onClick, isApplied = false }: JobCardProps) {
       onClick={() => onClick(job)}
       onKeyDown={handleKeyDown}
       aria-label={`View details for ${job.title} at ${job.companyName}`}
-      className="group relative flex cursor-pointer items-center gap-3 overflow-hidden rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-4 sm:gap-5 sm:px-6 sm:py-5 transition-all duration-300 ease-out hover:bg-white/[0.07] hover:border-white/[0.14] hover:-translate-y-[3px] hover:shadow-lg focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/20"
+      className="group relative flex cursor-pointer items-center gap-4 overflow-hidden rounded-xl border border-white/[0.08] bg-white/[0.04] px-6 py-5 sm:gap-6 sm:px-8 sm:py-6 transition-all duration-300 ease-out hover:bg-white/[0.07] hover:border-white/[0.14] hover:-translate-y-[3px] hover:shadow-lg focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/20"
       style={{
         // @ts-expect-error CSS custom property
         "--hover-shadow": `0 8px 32px ${accentBase}0.12)`,
