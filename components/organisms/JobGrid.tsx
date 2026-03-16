@@ -139,22 +139,26 @@ export function JobGrid({
       ) : jobs.length === 0 ? (
         <EmptyState onReset={onReset} />
       ) : (
-        <div className="flex flex-col gap-2.5">
-          <AnimatePresence mode="popLayout">
+        <motion.div className="flex flex-col gap-2.5" layout>
+          <AnimatePresence mode="popLayout" initial={false}>
             {jobs.map((job, i) => (
               <motion.div
                 key={job.id}
-                initial={{ opacity: 0, y: 8 }}
+                layout="position"
+                initial={{ opacity: 0, y: 6 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, scale: 0.98 }}
-                transition={{ delay: i * 0.04, duration: 0.2, type: "tween" }}
-                layout
+                exit={{ opacity: 0, transition: { duration: 0.1 } }}
+                transition={{
+                  layout: { type: "spring", stiffness: 350, damping: 35, mass: 0.8 },
+                  opacity: { duration: 0.18, delay: i * 0.025 },
+                  y: { duration: 0.18, delay: i * 0.025 },
+                }}
               >
                 <JobCard job={job} onClick={onJobClick} isApplied={isApplied(job.id)} />
               </motion.div>
             ))}
           </AnimatePresence>
-        </div>
+        </motion.div>
       )}
     </div>
   );
