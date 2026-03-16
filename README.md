@@ -1,6 +1,6 @@
 # JobBoard.OS
 
-A premium, dark-themed job board built with Next.js 16, Tailwind CSS v4, and Shadcn/UI. Features glassmorphism cards, brand-gradient company logos, real-time debounced search, URL-synced filters, a blurred side-drawer job detail view, staggered animations, skeleton loaders, and a full apply flow with localStorage persistence and toast notifications.
+A premium, dark-themed job board built with Next.js 16, Tailwind CSS v4, and Shadcn/UI. Features brand-gradient company logos, real-time debounced search, URL-synced filters, a centered modal with scrollable job detail, staggered hero animations, skeleton loaders, department-coloured card hover accents, a full apply/withdraw flow with localStorage persistence, and toast notifications.
 
 **Live demo:** https://job-board-os.vercel.app  
 **GitHub:** https://github.com/shreyas-debug/JobBoard.OS
@@ -9,19 +9,21 @@ A premium, dark-themed job board built with Next.js 16, Tailwind CSS v4, and Sha
 
 ## Design Decisions
 
-### Dark Theme & Glassmorphism
+### Dark Theme & Visual Identity
 
-The application uses a permanent deep off-black (`#0A0A0A`) base - not pure black, which looks harsh, and not `zinc-950`, which is too blue-tinted. Against this base, all interactive surfaces (cards, filter bar, side drawer) use `bg-white/[0.02]–bg-white/[0.08]` with `border-white/[0.05]–border-white/[0.1]` - a glassmorphism technique that creates physical depth without heavy shadows.
+The application uses a permanent deep off-black (`#0A0A0A`) base. The hero section has two layered radial auras (indigo + violet) behind the gradient headline, satisfying the "gradients, subtle blurs" requirement from the brief. The modal backdrop uses `bg-black/80 backdrop-blur-sm` to keep focus on the content.
 
-The sticky filter bar uses `backdrop-blur-xl` so it reads as a frosted-glass panel floating above the job list. The side-drawer overlay uses `bg-black/60 backdrop-blur-sm` - blurring the content behind the sheet satisfies the assignment's "subtle blurs" requirement while keeping the drawer panel itself crisp and readable.
+### Hero Gradient & Animation
 
-### The Background Gradient
+The headline uses `bg-gradient-to-br from-white via-white/95 to-white/50 bg-clip-text text-transparent` for a crisp gradient effect. The badge, headline, and subtext fade-slide-up with staggered 0.1s delays on load. The live positions badge has an `animate-ping` pulsing dot.
 
-A single `radial-gradient(ellipse 80% 50% at 50% -20%, rgba(120,119,198,0.3), rgba(255,255,255,0))` is applied directly as the page background, creating a soft purple/indigo spotlight that bleeds down from the top of the viewport. This satisfies the "gradients" requirement without any linear text-gradients or button gradients, which tend to look cheap. The gradient is visible, not merely hinted at.
+### Department-Coloured Card Hover Accents
+
+Each job card shows a 3px coloured accent bar that slides in from the bottom-left on hover, with a matching radial glow behind the content. Colours are keyed by department: Engineering → indigo, Design → rose, Marketing → amber, Product → teal.
 
 ### Brand-Gradient Company Logos
 
-Company logos are white SVGs sourced from the Simple Icons CDN (`cdn.simpleicons.org/{slug}/ffffff`). Each logo sits on a brand-specific `bg-gradient-to-br` tile - Linear gets `indigo → violet`, Stripe gets `indigo → cyan`, Loom gets `orange → red`, Figma gets `orange → violet`, and so on. A `shadow-[0_0_16px_rgba(255,255,255,0.08)]` halo gives each tile a soft ambient glow. Unknown companies receive a deterministic gradient from an 8-colour fallback palette. If the CDN fetch fails, a `LetterAvatar` with a matching tinted dark palette is rendered instead.
+Company logos are white SVGs from the Simple Icons CDN (`cdn.simpleicons.org/{slug}/ffffff`). Each logo sits on a brand-specific `bg-gradient-to-br` tile with a soft ambient halo. 15 brands are mapped; unknown companies use a deterministic gradient from an 8-colour fallback palette. If the CDN fetch fails, a `LetterAvatar` renders instead.
 
 ### Colourful Tinted Badges
 
@@ -31,22 +33,20 @@ Every job attribute badge carries a semantic colour:
 |---|---|
 | Full-time | Blue |
 | Contract | Amber |
+| Part-time | Emerald |
 | Engineering | Violet |
 | Design | Pink |
-| Marketing | Emerald |
+| Marketing | Fuchsia |
+| Product | Teal |
 | Remote | Cyan |
 | London | Orange |
 | NYC | Rose |
-
-This lets users scan the list visually - a glance at the badge colours is enough to understand the role at a distance without reading every word.
-
-### Typography
-
-Geist Sans (400–700) is used throughout. It is the typeface designed by Vercel for developer-facing interfaces: geometric, legible at small sizes, with excellent tabular numerals for salary figures. `tracking-tight` on all headings sharpens the premium feel.
+| Berlin | Lime |
+| San Francisco | Sky |
 
 ### Centered Modal for Job Details
 
-The job detail view uses a centered Dialog built directly on `@base-ui/react/dialog` primitives rather than a side sheet. The backdrop uses `bg-black/80 backdrop-blur-sm` - a heavy dim that keeps focus entirely on the modal content. The popup is `max-w-2xl` with `max-h-[88vh]` and a three-zone flex layout: a fixed header (logo, title, bento metadata, badges), a `flex-1 overflow-y-auto` body for the full role description, and a sticky footer with the single Apply CTA that is always reachable regardless of scroll depth. An `X` button at `top-4 right-4` handles dismissal; the Esc key and backdrop click close the dialog automatically via base-ui's built-in behaviour.
+The job detail view uses a centered Dialog built on `@base-ui/react/dialog` primitives. The popup uses a three-zone flex layout: a fixed header (logo, title, bento 2×2 metadata, badges, share), a `flex-1 min-h-0 overflow-y-auto` body for the full role description with a custom thin scrollbar, and a sticky footer. When already applied, the footer shows a green **Applied** indicator alongside a **Withdraw** button that removes the application from localStorage.
 
 ---
 
@@ -62,16 +62,16 @@ components/
 │   └── LetterAvatar    Dark-palette letter avatar for failed/missing logos
 │
 ├── molecules/        Compositions of atoms with localised state
-│   ├── JobCard         Glassmorphism card - logo, badges, metadata, hover arrow
+│   ├── JobCard         Cards with dept-coloured hover accent bar + glow
 │   ├── JobCardSkeleton Shadcn Skeleton mirroring the card layout
-│   ├── FilterBar       2-row sticky bar: search (row 1) + filter chips (row 2)
+│   ├── FilterBar       Search + type pills + dept pills + applied toggle
 │   └── EmptyState      "No roles found" with reset affordance
 │
 └── organisms/        Page-level sections that own or consume shared state
-    ├── Hero            Compact dark heading with status badge
-    ├── JobGrid         AnimatePresence list - skeletons → cards → empty state
-    ├── JobDetailSheet  Shadcn Sheet with bento metadata + sticky Apply CTA
-    └── JobBoard        Client orchestrator - wires all hooks to all UI
+    ├── Hero            Gradient headline + radial aura + stagger animation
+    ├── JobGrid         List → skeletons → cards → empty state
+    ├── JobDetailDialog Centered modal with scroll body + Apply/Withdraw CTA
+    └── JobBoard        Client orchestrator — wires all hooks to all UI
 ```
 
 ### Data & State Flow
@@ -87,14 +87,14 @@ app/page.tsx  (Server Component)
               ├── <Hero />
               ├── <FilterBar />       ← controlled inputs + Applied toggle chip
               ├── <JobGrid />         ← filtered + applied-only list
-              └── <JobDetailSheet />  ← opened on card click
+              └── <JobDetailDialog /> ← opened on card click
 ```
 
-**`useJobs`** - single source of truth for search and filter state. Reads initial values from URL search params on mount (`useSearchParams`), filters the `jobs.json` array in memory, and reflects every change back to the URL via `router.replace` (shallow, no page reload). This makes any filtered view shareable by copying the address bar.
+**`useJobs`** — reads initial values from URL search params on mount, filters the `jobs.json` array in memory, and reflects every change back to the URL via `router.replace` (shallow). Makes any filtered view shareable by copying the address bar.
 
-**`useDebounce`** - generic hook (`useDebounce<T>(value, delay)`) that delays propagating a value until 300 ms after the last change. The raw `searchQuery` is bound to the input immediately for a responsive feel; the `debouncedQuery` drives the actual filter logic.
+**`useDebounce`** — generic hook that delays propagating a value 300 ms after the last change.
 
-**`useAppliedJobs`** - reads and writes a `Set<string>` of applied job IDs to `localStorage` under the key `"jobboard_applied_ids"`. Survives page refreshes. Exposes `applyToJob(id)` and `isApplied(id)`.
+**`useAppliedJobs`** — reads/writes a `Set<string>` of applied job IDs to `localStorage`. Exposes `applyToJob(id)`, `unapplyFromJob(id)`, and `isApplied(id)`. Survives page refreshes.
 
 ---
 
@@ -105,9 +105,8 @@ app/page.tsx  (Server Component)
 | Framework | Next.js 16 (App Router) |
 | Language | TypeScript 5 |
 | Styling | Tailwind CSS v4 |
-| Components | Shadcn/UI (Base UI / Radix primitives) |
-| Animations | Framer Motion 12 |
-| Notifications | Sonner (via Shadcn) |
+| Components | Shadcn/UI (Base UI primitives) |
+| Notifications | Sonner |
 | Icons | Lucide React |
 | Font | Geist Sans & Geist Mono |
 | Logos | Simple Icons CDN |
@@ -145,51 +144,53 @@ npm run lint    # ESLint
 ```
 JobBoard.OS/
 ├── app/
-│   ├── globals.css         Tailwind v4 directives and base reset
-│   ├── layout.tsx          Root layout - Geist font, metadata, Toaster, ThemeProvider
-│   └── page.tsx            Entry point - Suspense boundary around <JobBoard>
+│   ├── globals.css         Tailwind v4 directives, custom scrollbar, keyframes
+│   ├── layout.tsx          Root layout — Geist font, metadata, Toaster
+│   └── page.tsx            Entry point — Suspense boundary around <JobBoard>
 ├── components/
 │   ├── atoms/
 │   │   ├── CompanyLogo.tsx   Brand gradient logo tile with fallback
 │   │   ├── JobBadge.tsx      Colour-coded badge by label
 │   │   └── LetterAvatar.tsx  Dark-palette initial avatar
 │   ├── molecules/
-│   │   ├── JobCard.tsx
+│   │   ├── JobCard.tsx          Dept-coloured hover accent + glow
 │   │   ├── JobCardSkeleton.tsx
-│   │   ├── FilterBar.tsx
+│   │   ├── FilterBar.tsx        Type + dept + applied filters, mobile scroll
 │   │   └── EmptyState.tsx
 │   ├── organisms/
-│   │   ├── Hero.tsx
+│   │   ├── Hero.tsx             Gradient text + aura + stagger animation
 │   │   ├── JobGrid.tsx
-│   │   ├── JobDetailSheet.tsx
+│   │   ├── JobDetailDialog.tsx  Scrollable modal + Apply/Withdraw flow
 │   │   └── JobBoard.tsx
-│   └── ui/                 Shadcn-generated primitives (select, sheet, skeleton, sonner…)
+│   └── ui/                 Shadcn-generated primitives (skeleton, sonner…)
 ├── data/
-│   └── jobs.json           12 realistic jobs covering all filter dimensions
+│   └── jobs.json           15 realistic jobs across 4 depts, 3 types, 5 locations
 ├── hooks/
 │   ├── useJobs.ts          Filter logic + URL state sync + debounce integration
-│   ├── useAppliedJobs.ts   localStorage applied-jobs persistence
+│   ├── useAppliedJobs.ts   localStorage apply/withdraw persistence
 │   └── useDebounce.ts      Generic 300 ms debounce
 ├── types/
-│   └── job.ts              Job, Department, Location, JobType interfaces
-└── next.config.ts          Image domains (Simple Icons CDN, unavatar.io)
+│   └── job.ts              Job, Department, Location, JobType types
+└── next.config.ts
 ```
 
 ---
 
 ## Features
 
-- **Job list from JSON** - 12 realistic dummy jobs with title, department, location, type, salary range, and full description
-- **Filter by Type** - "All / Full-time / Contract" pill group; active pill uses tinted glass highlight
-- **Filter by Department** - exposed as a horizontal pill row; active pill uses `bg-white text-black` with a soft white glow for instant visual feedback
-- **Job Details Dialog** - centered modal (`max-w-2xl`); `bg-black/80 backdrop-blur-sm` backdrop; bento 2x2 metadata grid (Location, Salary, Type, Department); sticky Apply CTA footer
-- **Responsive** - single-column mobile; filter pill row wraps on small screens; dialog is full-width on mobile
-- **Real-time debounced search** - 300 ms delay, URL-synced (`?q=`)
-- **URL-synced filters** - `?type=Full-time&dept=Engineering` is restorable and shareable
-- **Skeleton loaders** - Shadcn Skeleton cards rendered during the simulated 700 ms load
-- **Staggered entry animations** - Framer Motion `AnimatePresence` with 40 ms per-card stagger
-- **Apply flow** - 1 s simulated network request → Sonner toast → `localStorage` persistence → card badge + disabled sheet state across page refreshes
-- **"Show Applied" filter** - chip in the filter bar shows count badge; emerald glow when active
-- **Empty state** - illustrated with a reset button that clears all filter state and URL params
-- **Keyboard navigation** - all cards `tabIndex={0}` with Enter/Space handlers; Esc closes the drawer; `aria-pressed` on pills; `role="switch"` on the Applied toggle
-- **Letter Avatar fallback** - dark-palette tinted avatars when logo CDN fails; deterministic colour by company name
+- **15 jobs from JSON** — covering all filter dimensions (4 depts: Engineering, Design, Marketing, Product; 3 types: Full-time, Contract, Part-time; 5 locations)
+- **Filter by Type** — All / Full-time / Contract / Part-time pill group; horizontally scrollable on mobile
+- **Filter by Department** — All Departments / Engineering / Design / Marketing / Product pills; horizontally scrollable on mobile
+- **Job Details Modal** — centered `max-w-2xl` dialog; bento 2×2 metadata grid; fully scrollable description with custom thin scrollbar; Share button that copies a shareable URL
+- **Apply & Withdraw flow** — gradient Apply button → 1s loading → Applied state; Withdraw button → 0.6s loading → removed from localStorage; both confirmed by Sonner toasts
+- **Responsive** — single-column mobile; filter rows scroll horizontally; modal is full-width on mobile
+- **Real-time debounced search** — 300 ms delay, URL-synced (`?q=`)
+- **URL-synced filters** — `?type=Full-time&dept=Engineering` is restorable and shareable
+- **Skeleton loaders** — Shadcn Skeleton cards during simulated 700 ms load
+- **Hero stagger animations** — badge, headline, subtext fade-slide-up with 0.1s staggered delays
+- **Department-coloured card hovers** — left accent bar + radial glow keyed by department
+- **"New" badge** — sky-blue badge on jobs posted within the last 3 days
+- **"Show Applied" filter** — emerald chip with count badge in the filter bar
+- **Empty state** — illustrated with a reset button that clears all filter state and URL params
+- **Keyboard navigation** — all cards `tabIndex={0}` with Enter/Space handlers; Esc closes dialog; `aria-pressed` on pills; `role="switch"` on Applied toggle
+- **Letter Avatar fallback** — tinted dark avatars when logo CDN fails; deterministic colour by company name

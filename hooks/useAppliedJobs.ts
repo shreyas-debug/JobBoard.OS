@@ -38,10 +38,19 @@ export function useAppliedJobs() {
     });
   }, []);
 
+  const unapplyFromJob = useCallback((jobId: string) => {
+    setAppliedIds((prev) => {
+      const next = new Set(prev);
+      next.delete(jobId);
+      writeToStorage(next);
+      return next;
+    });
+  }, []);
+
   const isApplied = useCallback(
     (jobId: string) => appliedIds.has(jobId),
     [appliedIds]
   );
 
-  return { appliedIds, applyToJob, isApplied };
+  return { appliedIds, applyToJob, unapplyFromJob, isApplied };
 }

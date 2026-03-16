@@ -15,6 +15,7 @@ import {
   Briefcase,
   Building2,
   X,
+  Share2,
 } from "lucide-react";
 import type { Job } from "@/types/job";
 
@@ -24,6 +25,7 @@ interface JobDetailDialogProps {
   onClose: () => void;
   isApplied: boolean;
   onApply: (jobId: string) => void;
+  onWithdraw: (jobId: string) => void;
 }
 
 export function JobDetailDialog({
@@ -32,8 +34,10 @@ export function JobDetailDialog({
   onClose,
   isApplied,
   onApply,
+  onWithdraw,
 }: JobDetailDialogProps) {
-  const [isApplying, setIsApplying] = useState(false);
+  const [isApplying, setIsApplying]     = useState(false);
+  const [isWithdrawing, setIsWithdrawing] = useState(false);
 
   if (!job) return null;
 
@@ -56,21 +60,47 @@ export function JobDetailDialog({
     });
   };
 
+  const handleWithdraw = async () => {
+    if (!isApplied || isWithdrawing) return;
+    setIsWithdrawing(true);
+    await new Promise<void>((resolve) => setTimeout(resolve, 600));
+    onWithdraw(job.id);
+    setIsWithdrawing(false);
+    toast.info("Application withdrawn.", {
+      description: `Your application for ${job.title} has been removed.`,
+    });
+  };
+
+  const handleShare = async () => {
+    const url = window.location.origin + `/?q=${encodeURIComponent(job.title)}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      toast.success("Link copied!", { description: "Share this job with someone." });
+    } catch {
+      toast.error("Couldn't copy link.");
+    }
+  };
+
   return (
     <DialogPrimitive.Root open={open} onOpenChange={(o) => !o && onClose()}>
       <DialogPrimitive.Portal>
         {/* ── Dark blurred backdrop ── */}
         <DialogPrimitive.Backdrop className="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm duration-150 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0" />
 
-        {/* ── Centered popup ── */}
-        <DialogPrimitive.Popup className="fixed left-1/2 top-1/2 z-50 mx-4 flex max-h-[88vh] w-full max-w-2xl -translate-x-1/2 -translate-y-1/2 flex-col overflow-hidden rounded-2xl border border-white/10 bg-[#0A0A0A] shadow-[0_24px_80px_rgba(0,0,0,0.9)] outline-none duration-150 data-open:animate-in data-open:fade-in-0 data-open:zoom-in-95 data-closed:animate-out data-closed:fade-out-0 data-closed:zoom-out-95">
+        {/* ── Popup: bottom sheet on mobile, centered modal on sm+ ── */}
+        <DialogPrimitive.Popup className="fixed z-50 flex flex-col overflow-hidden border border-white/10 bg-[#0A0A0A] shadow-[0_24px_80px_rgba(0,0,0,0.9)] outline-none duration-200 data-open:animate-in data-open:fade-in-0 data-closed:animate-out data-closed:fade-out-0 inset-x-0 bottom-0 w-full max-h-[92vh] rounded-t-2xl sm:inset-x-auto sm:bottom-auto sm:left-1/2 sm:top-1/2 sm:w-[calc(100%-2rem)] sm:max-w-2xl sm:max-h-[88vh] sm:-translate-x-1/2 sm:-translate-y-1/2 sm:rounded-2xl data-open:slide-in-from-bottom-4 data-closed:slide-out-to-bottom-4 sm:data-open:zoom-in-95 sm:data-closed:zoom-out-95">
+
+          {/* ── Drag handle (mobile only) ── */}
+          <div className="flex shrink-0 justify-center pt-3 pb-1 sm:hidden" aria-hidden="true">
+            <div className="h-1 w-10 rounded-full bg-white/15" />
+          </div>
 
           {/* ── Header (fixed) ── */}
-          <div className="shrink-0 border-b border-white/5 px-6 pb-5 pt-6 pr-14">
+          <div className="shrink-0 border-b border-white/5 px-4 pb-4 pt-5 pr-12 sm:px-6 sm:pb-5 sm:pt-6 sm:pr-14">
             <div className="flex items-start gap-4">
               <CompanyLogo
                 logoUrl={job.logoUrl}
-                companyName={job.companyName ?? job.title}
+                companyName={job.companyName}
                 size="md"
               />
               <div className="min-w-0">
@@ -114,18 +144,30 @@ export function JobDetailDialog({
               ))}
             </div>
 
-            <p className="mt-3 flex items-center gap-1.5 text-[11px] text-white/25">
-              <Calendar size={10} aria-hidden="true" />
-              Posted {postedDate}
-            </p>
+            <div className="mt-3 flex items-center justify-between">
+              <p className="flex items-center gap-1.5 text-[11px] text-white/25">
+                <Calendar size={10} aria-hidden="true" />
+                Posted {postedDate}
+              </p>
+              {/* Share button */}
+              <button
+                type="button"
+                onClick={handleShare}
+                title="Copy link to this job"
+                className="flex items-center gap-1.5 rounded-md border border-white/8 bg-white/[0.04] px-2.5 py-1 text-[11px] font-medium text-white/35 transition-all hover:bg-white/[0.08] hover:text-white/60 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/30"
+              >
+                <Share2 size={11} aria-hidden="true" />
+                Share
+              </button>
+            </div>
           </div>
 
           {/* ── Scrollable body ── */}
-          <div className="flex-1 overflow-y-auto px-6 py-5">
+          <div className="scrollbar-thin min-h-0 flex-1 overflow-y-auto px-4 py-4 sm:px-6 sm:py-6">
             <h3 className="mb-4 text-[10px] font-bold uppercase tracking-[0.15em] text-white/25">
               About the Role
             </h3>
-            <div className="space-y-4">
+            <div className="space-y-4 pb-6">
               {descriptionParagraphs.map((para, i) => {
                 const isHeading =
                   para.startsWith("Key Responsibilities") ||
@@ -168,21 +210,36 @@ export function JobDetailDialog({
           </div>
 
           {/* ── Sticky footer: single CTA ── */}
-          <div className="shrink-0 border-t border-white/5 px-6 py-4">
+          <div className="shrink-0 border-t border-white/5 px-4 py-3 sm:px-6 sm:py-4">
             {isApplied ? (
-              <div
-                className="flex w-full items-center justify-center gap-2 rounded-lg border border-emerald-500/30 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 py-3 text-[13px] font-semibold text-emerald-400"
-                aria-label="Already applied"
-              >
-                <CheckCircle2 size={14} aria-hidden="true" />
-                Applied
+              <div className="flex items-center gap-2">
+                {/* Applied indicator */}
+                <div className="flex flex-1 items-center justify-center gap-2 rounded-lg border border-emerald-500/30 bg-gradient-to-r from-emerald-500/20 to-teal-500/20 py-3 text-[13px] font-semibold text-emerald-400">
+                  <CheckCircle2 size={14} aria-hidden="true" />
+                  Applied
+                </div>
+                {/* Withdraw button */}
+                <button
+                  type="button"
+                  onClick={handleWithdraw}
+                  disabled={isWithdrawing}
+                  title="Withdraw your application"
+                  className="flex items-center gap-1.5 rounded-lg border border-white/10 bg-white/[0.04] px-4 py-3 text-[13px] font-medium text-white/40 transition-all hover:border-red-500/30 hover:bg-red-500/10 hover:text-red-400 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/20"
+                >
+                  {isWithdrawing ? (
+                    <Loader2 size={13} className="animate-spin" aria-hidden="true" />
+                  ) : (
+                    <X size={13} aria-hidden="true" />
+                  )}
+                  Withdraw
+                </button>
               </div>
             ) : (
               <button
                 type="button"
                 onClick={handleApply}
                 disabled={isApplying}
-                className="flex w-full items-center justify-center gap-2 rounded-lg bg-white py-3 text-[13px] font-semibold text-black transition-all hover:bg-white/90 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/30 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A]"
+                className="relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-lg bg-gradient-to-r from-indigo-500 via-violet-500 to-purple-600 py-3 text-[13px] font-semibold text-white shadow-[0_0_20px_rgba(139,92,246,0.35)] transition-all hover:shadow-[0_0_28px_rgba(139,92,246,0.5)] hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-violet-500/50 focus-visible:ring-offset-2 focus-visible:ring-offset-[#0A0A0A]"
               >
                 {isApplying ? (
                   <>

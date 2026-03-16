@@ -26,7 +26,7 @@ export function JobBoard() {
     setActiveDepartment,
   } = useJobs();
 
-  const { appliedIds, applyToJob, isApplied } = useAppliedJobs();
+  const { appliedIds, applyToJob, unapplyFromJob, isApplied } = useAppliedJobs();
 
   useEffect(() => {
     const t = setTimeout(() => setIsLoading(false), 700);
@@ -53,7 +53,7 @@ export function JobBoard() {
     <div className="relative min-h-screen bg-[#0A0A0A]">
 
       {/* ── Top section: pure black, hero + filters ── */}
-      <div className="w-full border-b border-white/10 bg-black px-6 pb-12 pt-20">
+      <div className="w-full border-b border-white/10 bg-black px-4 pb-8 pt-10 sm:px-6 sm:pb-12 sm:pt-20">
         <div className="mx-auto flex max-w-4xl flex-col items-center gap-10">
           <Hero openCount={displayedJobs.length} />
           <FilterBar
@@ -73,7 +73,7 @@ export function JobBoard() {
       </div>
 
       {/* ── Bottom section: job list + ambient glow ── */}
-      <div className="relative w-full pb-24">
+      <div className="relative w-full overflow-hidden pb-24">
         {/* Fail-safe ambient glow */}
         <div
           className="pointer-events-none absolute left-1/2 top-[-100px] z-0 h-[600px] w-[800px] -translate-x-1/2 rounded-[100%] bg-indigo-500/15 blur-[120px]"
@@ -104,6 +104,7 @@ export function JobBoard() {
         onClose={() => setDialogOpen(false)}
         isApplied={selectedJob ? isApplied(selectedJob.id) : false}
         onApply={applyToJob}
+        onWithdraw={unapplyFromJob}
       />
     </div>
   );

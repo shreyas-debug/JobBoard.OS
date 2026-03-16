@@ -2,7 +2,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 
 export function JobCardSkeleton() {
   return (
-    <div className="flex items-center gap-5 rounded-xl border border-white/[0.08] bg-white/[0.04] px-6 py-5">
+    <div className="flex items-center gap-3 rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-4 sm:gap-5 sm:px-6 sm:py-5">
       <Skeleton className="h-11 w-11 shrink-0 rounded-xl bg-white/5" />
       <div className="min-w-0 flex-1 space-y-2.5">
         <div className="flex items-center gap-2">

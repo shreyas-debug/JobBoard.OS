@@ -18,6 +18,9 @@ const BRAND_GRADIENTS: Record<string, string> = {
   resend:       "from-sky-400 to-blue-600",
   revolut:      "from-slate-600 to-indigo-600",
   descript:     "from-rose-500 to-violet-600",
+  framer:       "from-violet-500 to-pink-600",
+  raycast:      "from-orange-500 to-red-600",
+  supabase:     "from-emerald-500 to-teal-600",
 };
 
 // Deterministic fallback palette for unknown companies

@@ -142,5 +142,41 @@
     "logoUrl": "https://cdn.simpleicons.org/descript/ffffff",
     "description": "Descript is seeking a Head of Product Marketing to lead our go-to-market strategy for one of the fastest-growing creative tools on the market. You'll own positioning, messaging, launch strategy, and competitive intelligence, working directly with the CEO and CPO.\n\nKey Responsibilities:\n- Develop and own product positioning and messaging across all segments (creators, teams, enterprise)\n- Lead product launches end-to-end — from strategy and enablement through to external announcement\n- Build the product marketing function from the ground up, including hiring the first PMMs\n- Drive competitive intelligence and market research programmes\n\nRequirements:\n- 7+ years of product marketing experience, with at least 2 years at a leadership level\n- Proven track record of driving successful product launches in a B2C or PLG environment\n- Exceptional written communication and executive presence\n- Strong data orientation — you use metrics to validate strategy and measure impact",
     "postedAt": "2026-03-01"
+  },
+  {
+    "id": "13",
+    "title": "Interaction Designer",
+    "department": "Design",
+    "location": "Berlin",
+    "type": "Part-time",
+    "salaryRange": "€50/hr – €65/hr",
+    "companyName": "Framer",
+    "logoUrl": "https://cdn.simpleicons.org/framer/ffffff",
+    "description": "Framer is looking for a part-time Interaction Designer to help push the boundaries of animated, interactive UI design — both in the product and as a showcase of what Framer can do.\n\nKey Responsibilities:\n- Design micro-interactions, transitions, and motion sequences directly in Framer\n- Collaborate with product designers to bring static mockups to life\n- Create public templates and demo projects that inspire the Framer community\n- Contribute to motion design guidelines and best practices\n\nRequirements:\n- 3+ years of UX/interaction design experience\n- Expert-level Framer proficiency (or equivalent tool: Principle, Rive)\n- Strong portfolio demonstrating motion design and interaction design work\n- 20 hrs/week part-time engagement, fully remote",
+    "postedAt": "2026-03-15"
+  },
+  {
+    "id": "14",
+    "title": "Product Manager – Core Experience",
+    "department": "Product",
+    "location": "San Francisco",
+    "type": "Full-time",
+    "salaryRange": "$140k – $180k",
+    "companyName": "Raycast",
+    "logoUrl": "https://cdn.simpleicons.org/raycast/ffffff",
+    "description": "Raycast is hiring a Product Manager to own the core launcher experience — the part of Raycast that millions of power users interact with every single day. You'll work with a small, high-craft team to make the fastest, most delightful productivity tool on macOS even better.\n\nKey Responsibilities:\n- Define and own the product roadmap for the core search and command palette experience\n- Work closely with engineers and designers to ship high-quality, opinionated features\n- Gather qualitative and quantitative signals from power users to prioritise ruthlessly\n- Write detailed product specs and own the full launch cycle\n\nRequirements:\n- 5+ years of product management experience, ideally in developer tools or productivity software\n- Deep empathy for power users and a personal love of productivity tooling\n- Exceptional written communication — you can write a product spec that engineers are excited to build\n- Experience working in a small, fast-moving team where PMs wear many hats",
+    "postedAt": "2026-03-14"
+  },
+  {
+    "id": "15",
+    "title": "Technical Content Writer",
+    "department": "Marketing",
+    "location": "Remote",
+    "type": "Part-time",
+    "salaryRange": "$55/hr – $75/hr",
+    "companyName": "Supabase",
+    "logoUrl": "https://cdn.simpleicons.org/supabase/ffffff",
+    "description": "Supabase is looking for a part-time Technical Content Writer to produce developer-focused content that educates and inspires our fast-growing open-source community.\n\nKey Responsibilities:\n- Write tutorials, how-to guides, and deep-dive blog posts for a developer audience\n- Translate complex backend and database concepts into clear, engaging prose\n- Collaborate with DevRel and engineering to ensure technical accuracy\n- Optimise content for SEO while keeping it genuinely useful\n\nRequirements:\n- 3+ years of technical writing or developer relations experience\n- Hands-on experience with databases (PostgreSQL preferred), REST APIs, and authentication\n- Ability to write clean, working code samples in TypeScript or Python\n- 15–20 hrs/week remote engagement",
+    "postedAt": "2026-03-13"
   }
 ]

@@ -29,8 +29,17 @@ function isNew(dateStr: string): boolean {
   return diff <= 3;
 }
 
+const DEPT_ACCENT: Record<string, string> = {
+  Engineering: "rgba(99,102,241,",   // indigo
+  Design:      "rgba(244,63,94,",    // rose
+  Marketing:   "rgba(245,158,11,",   // amber
+  Product:     "rgba(20,184,166,",   // teal
+};
+
 export function JobCard({ job, onClick, isApplied = false }: JobCardProps) {
   const fresh = isNew(job.postedAt);
+  const accentBase = DEPT_ACCENT[job.department] ?? "rgba(255,255,255,";
+
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
@@ -45,13 +54,31 @@ export function JobCard({ job, onClick, isApplied = false }: JobCardProps) {
       onClick={() => onClick(job)}
       onKeyDown={handleKeyDown}
       aria-label={`View details for ${job.title} at ${job.companyName}`}
-      className="group flex cursor-pointer items-center gap-5 rounded-xl border border-white/[0.08] bg-white/[0.04] px-6 py-5 transition-all duration-300 ease-out hover:bg-white/[0.08] hover:border-white/[0.15] hover:-translate-y-[2px] focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/20"
+      className="group relative flex cursor-pointer items-center gap-3 overflow-hidden rounded-xl border border-white/[0.08] bg-white/[0.04] px-4 py-4 sm:gap-5 sm:px-6 sm:py-5 transition-all duration-300 ease-out hover:bg-white/[0.07] hover:border-white/[0.14] hover:-translate-y-[3px] hover:shadow-lg focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-white/20"
+      style={{
+        // @ts-expect-error CSS custom property
+        "--hover-shadow": `0 8px 32px ${accentBase}0.12)`,
+      }}
     >
+      {/* Left accent bar — slides in on hover */}
+      <div
+        className="absolute left-0 top-0 h-full w-[3px] origin-bottom scale-y-0 rounded-r-full transition-transform duration-300 ease-out group-hover:scale-y-100"
+        style={{ background: `${accentBase}0.7)` }}
+        aria-hidden="true"
+      />
+
+      {/* Subtle background glow on hover */}
+      <div
+        className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100 rounded-xl"
+        style={{ background: `radial-gradient(ellipse at 20% 50%, ${accentBase}0.06) 0%, transparent 65%)` }}
+        aria-hidden="true"
+      />
+
       {/* Brand gradient logo */}
-      <div className="relative shrink-0">
+      <div className="relative shrink-0 z-10">
         <CompanyLogo
           logoUrl={job.logoUrl}
-          companyName={job.companyName ?? job.title}
+          companyName={job.companyName}
           size="md"
         />
         {isApplied && (
@@ -65,7 +92,7 @@ export function JobCard({ job, onClick, isApplied = false }: JobCardProps) {
       </div>
 
       {/* Content */}
-      <div className="min-w-0 flex-1">
+      <div className="relative z-10 min-w-0 flex-1">
         <div className="flex flex-wrap items-center gap-2">
           <h2
             className="text-[14px] font-semibold tracking-tight text-white/90 truncate"
@@ -113,7 +140,7 @@ export function JobCard({ job, onClick, isApplied = false }: JobCardProps) {
       {/* Arrow slides right on hover */}
       <ArrowRight
         size={14}
-        className="shrink-0 text-white/15 transition-all duration-300 group-hover:translate-x-1 group-hover:text-white/50"
+        className="relative z-10 shrink-0 text-white/15 transition-all duration-300 group-hover:translate-x-1 group-hover:text-white/50"
         aria-hidden="true"
       />
     </article>

@@ -1,6 +1,6 @@
-export type Department = "Engineering" | "Design" | "Marketing";
-export type Location = "Remote" | "London" | "NYC";
-export type JobType = "Full-time" | "Contract";
+export type Department = "Engineering" | "Design" | "Marketing" | "Product";
+export type Location = "Remote" | "London" | "NYC" | "Berlin" | "San Francisco";
+export type JobType = "Full-time" | "Contract" | "Part-time";
 
 export interface Job {
   id: string;
@@ -11,6 +11,6 @@ export interface Job {
   salaryRange: string;
   description: string;
   postedAt: string;
-  companyName?: string;
-  logoUrl?: string;
+  companyName: string;
+  logoUrl: string;
 }
